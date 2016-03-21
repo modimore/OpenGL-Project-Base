@@ -4,8 +4,10 @@ project (test_setup)
 # all the .cpp files that make up this project
 add_executable(test_setup
   test_main.cpp
-  GLProgramManager.cpp
-  Camera.cpp
+  core/GLProgramManager.cpp
+  core/Camera.cpp
+  core/utility.cpp
+  ifs/IFS.cpp
 )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

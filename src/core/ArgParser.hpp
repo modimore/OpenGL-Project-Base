@@ -45,15 +45,16 @@ public:
   ArgParser(int argc, char* argv[]) {
     this->DefaultValues();
     for (int i = 1; i < argc; i++) {
-
       if ( !strcmp(argv[i],"-input") || !strcmp(argv[i],"-i") ) {
         ++i; assert(i < argc);
         separate_path_and_file(std::string(argv[i]), input_path, input_file);
       }
+      else if ( !strcmp(argv[i], "-shaders") ) {
+        // Do something
+      }
       else {
         std::cerr << "Unknown parameter: " << argv[i] << " ... skipping" << std::endl;
       }
-
     }
   }
 
@@ -62,7 +63,7 @@ public:
 
   void DefaultValues() {
     // input file
-    input_path = ".";
+    input_path = "../inputs";
     input_file = "example.obj";
     // shader files
     source_path = "../src";
@@ -71,11 +72,6 @@ public:
     // window size
     width = 500;
     height = 500;
-  }
-
-  void dump() {
-    std::cout << "ArgParser Contents" << std::endl
-              << "\tInput file: " << input_file << " in " << input_path << std::endl;
   }
 };
 

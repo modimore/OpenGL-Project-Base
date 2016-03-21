@@ -39,7 +39,7 @@ public:
   static bool super_pressed;
 
   // Setup and Cleanup
-  static void Initialize(ArgParser* _args);
+  static void Initialize(ArgParser* _args, GLProgram* _program);
   static void Cleanup();
 
   // Main Driver Function
@@ -53,12 +53,5 @@ public:
   // Error reporting callback
   static void error_callback(int error, const char* message);
 };
-
-// Helper Functions (may incorporate into class later)
-std::string ReadShaderCode(const std::string& code_path);
-void CompileShader(const GLuint shader_id, const std::string& shader_code);
-GLuint LoadShaders(const std::string& vs_path, const std::string& fs_path);
-std::string WhichGLError(GLenum& error);
-int HandleGLError(const std::string& message = "", bool ignore=false);
 
 #endif

@@ -95,8 +95,8 @@ void Camera::truck(double dx, double dy) {
 void Camera::rotate(double rx, double ry) {
   // this version of rotate doesn't let the model flip "upside-down"
   // slow the mouse down a little
-  rx *= 0.4;
-  ry *= 0.4;
+  rx *= 0.04;
+  ry *= 0.04;
 
   // Note: There is a singularity at the poles (0 & 180 degrees) when
   // 'up' and 'direction' are aligned

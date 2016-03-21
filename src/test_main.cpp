@@ -3,14 +3,17 @@
 #include <iostream>
 #include <cassert>
 
-#include "ArgParser.hpp"
-#include "Camera.hpp"
-#include "GLProgramManager.hpp"
+#include "core/Camera.hpp"
+#include "core/GLProgramManager.hpp"
+
+#include "ifs/IFSArgParser.hpp"
+#include "ifs/IFS.hpp"
 
 int main(int argc, char* argv[]) {
 
-  ArgParser args = ArgParser(argc,argv);
-  GLProgramManager::Initialize(&args);
+  IFSArgParser args = IFSArgParser(argc,argv);
+  IFS ifs = IFS(&args);
+  GLProgramManager::Initialize(&args,&ifs);
   GLProgramManager::Run();
   GLProgramManager::Cleanup();
   return 0;
