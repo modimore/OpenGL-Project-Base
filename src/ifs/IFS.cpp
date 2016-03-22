@@ -43,8 +43,6 @@ IFS::IFS(IFSArgParser* _args)
     }
     transforms[i] = glm::make_mat4(t_data);
   }
-
-  std::cout << "Created IFS Program" << std::endl;
 }
 
 IFS::~IFS() {
@@ -102,11 +100,7 @@ void IFS::SetupPoints() {
     // Put location and color into point array
     points[i].position = pt;
     points[i].color = glm::vec4(0.0f,0.0f,0.0f,1.0f);
-    std::cout << points[i].position.x << std::endl;
   }
-
-  std::cout << sizeof(struct VertexPosColor) << std::endl;
-  std::cout << sizeof(glm::vec4) << std::endl;
 
   // Heavy GL stuff
   glGenVertexArrays(1,&vao_id);

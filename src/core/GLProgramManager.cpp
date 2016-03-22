@@ -28,9 +28,6 @@ bool GLProgramManager::super_pressed = false;
 void GLProgramManager::Initialize(ArgParser* _args, GLProgram* _program) {
   args = _args;
   program = _program;
-  std::cout << "ProgramManager initialized..." << std::endl;
-  std::cout << "Beginning execution with parameters: " << std::endl
-            << "\tInput file: " << args->input_file << " in folder " << args->input_path << std::endl;
 
   // Camera setup
   glm::vec3 camera_position = glm::vec3(0.5,0.5,5);
@@ -100,9 +97,7 @@ void GLProgramManager::Initialize(ArgParser* _args, GLProgram* _program) {
 }
 
 // Clean up all resources for this program
-void GLProgramManager::Cleanup() {
-  std::cout << "Exiting Program..." << std::endl;
-}
+void GLProgramManager::Cleanup() { }
 
 void GLProgramManager::Run() {
   // Setup GL stuff

@@ -26,7 +26,7 @@ std::string ReadShaderCode(const std::string& code_path) {
 // Compile shader code
 void CompileShader(const GLuint shader_id, const std::string& shader_code) {
   GLint result = GL_FALSE;
-  int InfoLogLength;
+  GLint InfoLogLength = 0;
 
   char const * source_ptr = shader_code.c_str();
   glShaderSource(shader_id, 1, &source_ptr, NULL);
@@ -34,15 +34,10 @@ void CompileShader(const GLuint shader_id, const std::string& shader_code) {
   // Check compilation result
   glGetShaderiv(shader_id, GL_COMPILE_STATUS, &result);
   glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &InfoLogLength);
-  if (InfoLogLength > 0) {
-    std::vector<char> error_message(InfoLogLength+1);
+  if (InfoLogLength > 1) {
+    std::string error_message(" ", InfoLogLength);
     glGetShaderInfoLog(shader_id,InfoLogLength,NULL,&error_message[0]);
-    if (error_message.size() > 0) {
-      std::string error_text;
-      for (unsigned int i = 0; i < error_message.size(); i++)
-        { error_text.push_back(error_message[i]); }
-      std::cerr << "ERROR: " << error_text << std::endl;
-    }
+    std::cerr << "ERROR: " << error_message << std::endl;
   }
 }
 
@@ -72,15 +67,10 @@ GLuint LoadShaders(const std::string& vs_path, const std::string& fs_path) {
   // Check linking result
   glGetProgramiv(program_id, GL_LINK_STATUS, &result);
   glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &InfoLogLength);
-  if (InfoLogLength > 0) {
-    std::vector<char> program_error_message(InfoLogLength+1);
-    glGetProgramInfoLog(program_id, InfoLogLength, NULL, &program_error_message[0]);
-    if (program_error_message.size() > 0) {
-      std::string error_text;
-      for (unsigned int i = 0; i < program_error_message.size(); i++ )
-        { error_text.push_back(program_error_message[i]); }
-      std::cout << "ERROR: " << error_text << std::endl;
-    }
+  if (InfoLogLength > 1) {
+    std::string error_message(" ", InfoLogLength);
+    glGetProgramInfoLog(program_id, InfoLogLength, NULL, &error_message[0]);
+    std::cerr << "ERROR: " << error_message << std::endl;
   }
 
   glDeleteShader(vs_id);

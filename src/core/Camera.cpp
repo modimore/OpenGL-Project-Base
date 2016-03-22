@@ -55,7 +55,7 @@ void OrthographicCamera::place() {
 void PerspectiveCamera::place() {
   glfwGetWindowSize(GLProgramManager::window, &width, &height);
   float aspect = width / (float)height;
-  ProjectionMatrix = glm::perspective<float>(angle, aspect, 0.1f, 100.0f);
+  ProjectionMatrix = glm::perspective<float>(glm::radians(angle), aspect, 0.1f, 100.0f);
   ViewMatrix =  glm::lookAt(position,point_of_interest,getScreenUp()) ;
 }
 
@@ -95,8 +95,8 @@ void Camera::truck(double dx, double dy) {
 void Camera::rotate(double rx, double ry) {
   // this version of rotate doesn't let the model flip "upside-down"
   // slow the mouse down a little
-  rx *= 0.04;
-  ry *= 0.04;
+  rx *= 0.4;
+  ry *= 0.4;
 
   // Note: There is a singularity at the poles (0 & 180 degrees) when
   // 'up' and 'direction' are aligned
@@ -109,8 +109,8 @@ void Camera::rotate(double rx, double ry) {
   glm::vec3 h = getHorizontal();
   glm::mat4 m;
   m = glm::translate<GLfloat>(m,glm::vec3(point_of_interest));
-  m *= glm::rotate<GLfloat>(rx,up);
-  m *= glm::rotate<GLfloat>(ry,h);
+  m *= glm::rotate<GLfloat>(glm::radians(rx),up);
+  m *= glm::rotate<GLfloat>(glm::radians(ry),h);
   m = glm::translate<GLfloat>(m,glm::vec3(-point_of_interest));
   glm::vec4 tmp(position,1);
   tmp = m * tmp;

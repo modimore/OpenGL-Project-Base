@@ -13,8 +13,11 @@ inline void separate_path_and_file(const std::string &full_path, std::string& pa
   // Start with last = -1 (which is also the "substring not found" flag)
   size_t last = std::string::npos;
   // Starting at zero, find the next '/' in the string until the end of the string is reached
-  for (size_t next = 0; next != std::string::npos; next = full_path.find('/',next)) {
-    last = next; // update last every time a new '/' is found
+  size_t next = full_path.find('/',0);
+  while (next != std::string::npos) {
+    // update last every time a new '/' is found
+    last = next;
+    next = full_path.find('/',next);
   }
 
   // if there is no '/' then change the filename to the full path and leave the default path
@@ -22,28 +25,27 @@ inline void separate_path_and_file(const std::string &full_path, std::string& pa
   // otherwise split up the full path based on the last '/'
   else {
     path = full_path.substr(0,last);
-    filename = full_path.substr(last+1,full_path.size());
+    filename = full_path.substr(last,full_path.size());
   }
 }
 
 class ArgParser {
 public:
   // File paths and names
-  std::string input_path;
-  std::string input_file;
-  std::string source_path;
-  std::string vertex_shader;
-  std::string fragment_shader;
+  std::string input_path = "../inputs";
+  std::string input_file = "example.obj";
+  std::string source_path = "../src";
+  std::string vertex_shader = "default.vs";
+  std::string fragment_shader = "default.fs";
   // Window parameters
-  int width;
-  int height;
+  int width = 500;
+  int height = 500;
 
   // Constructors
-  // Default
-  ArgParser() { this->DefaultValues(); }
+  // Default, trivial
+  ArgParser() {}
   // Parse accepted paramters from command line at runtime
   ArgParser(int argc, char* argv[]) {
-    this->DefaultValues();
     for (int i = 1; i < argc; i++) {
       if ( !strcmp(argv[i],"-input") || !strcmp(argv[i],"-i") ) {
         ++i; assert(i < argc);
@@ -60,19 +62,6 @@ public:
 
   // Destructor, trivial
   ~ArgParser() {}
-
-  void DefaultValues() {
-    // input file
-    input_path = "../inputs";
-    input_file = "example.obj";
-    // shader files
-    source_path = "../src";
-    vertex_shader = "default.vs";
-    fragment_shader = "default.fs";
-    // window size
-    width = 500;
-    height = 500;
-  }
 };
 
 #endif
