@@ -2,7 +2,7 @@
 #define _IFS_
 
 #include "IFSArgParser.hpp"
-#include "../core/GLProgram.hpp"
+#include "../../base/Model.hpp"
 #include "MersenneTwister.h"
 
 #include <GL/glew.h>
@@ -11,7 +11,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-class IFS : public GLProgram {
+class IFS : public Model {
 public:
   // Custom IFS ArgParser
   IFSArgParser* args;
@@ -20,9 +20,9 @@ public:
   ~IFS();
 
   // Driver functions
-  void Setup();
-  void Update(GLuint matrix_id, const glm::mat4 m);
-  void Cleanup();
+  void Create();
+  void Alter(GLuint matrix_id, const glm::mat4 m);
+  void Delete();
 
   // Point mode
   void SetupPoints();
@@ -36,6 +36,11 @@ public:
   MTRand rng;
   GLuint vao_id;
   GLuint vbo_id;
+};
+
+struct VertexPosColor {
+  glm::vec4 position;
+  glm::vec4 color;
 };
 
 #endif

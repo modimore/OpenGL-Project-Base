@@ -7,12 +7,6 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-// Simple vertex representation struct
-struct VertexPosColor {
-  glm::vec4 position;
-  glm::vec4 color;
-};
-
 // Helper functions (mostly for GLProgramManager)
 std::string ReadShaderCode(const std::string& code_path);
 void CompileShader(const GLuint shader_id, const std::string& shader_code);

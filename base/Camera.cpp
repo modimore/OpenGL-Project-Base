@@ -1,5 +1,5 @@
 #include "Camera.hpp"
-#include "GLProgramManager.hpp"
+#include "GLContext.hpp"
 
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -37,7 +37,7 @@ PerspectiveCamera::PerspectiveCamera
 // ====================================================================
 
 void OrthographicCamera::place() {
-  glfwGetWindowSize(GLProgramManager::window, &width, &height);
+  glfwGetWindowSize(GLContext::window, &width, &height);
   float w = width, h = height;
   float aspect = w / h;
   // handle non square windows
@@ -53,7 +53,7 @@ void OrthographicCamera::place() {
 }
 
 void PerspectiveCamera::place() {
-  glfwGetWindowSize(GLProgramManager::window, &width, &height);
+  glfwGetWindowSize(GLContext::window, &width, &height);
   float aspect = width / (float)height;
   ProjectionMatrix = glm::perspective<float>(glm::radians(angle), aspect, 0.1f, 100.0f);
   ViewMatrix =  glm::lookAt(position,point_of_interest,getScreenUp()) ;
@@ -83,7 +83,7 @@ void PerspectiveCamera::zoom(double dist) { angle *= pow(1.003,dist); }
 void Camera::truck(double dx, double dy) {
   glm::vec3 diff = position - point_of_interest;
   float d = glm::length(diff);
-  glm::vec3 translate = (d*0.0007f)*(getHorizontal()*float(dx) + getScreenUp()*float(dy));
+  glm::vec3 translate = (d*0.0007f)*(getHorizontal()*float(dx) + getScreenUp()*float(-dy));
   position += translate;
   point_of_interest += translate;
 }

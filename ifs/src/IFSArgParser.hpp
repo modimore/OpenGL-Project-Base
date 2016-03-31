@@ -1,12 +1,12 @@
 #ifndef _IFS_ARGPARSER_HPP_
 #define _IFS_ARGPARSER_HPP_
 
-#include "../core/ArgParser.hpp"
+#include "../../base/ArgParser.hpp"
 
 class IFSArgParser : public ArgParser {
 public:
   // Default input file and path
-  std::string input_path = "../inputs/ifs";
+  std::string input_path = "../inputs";
   std::string input_file = "sierpinski.txt";
   // IFS-related parameters
   unsigned int points = 10000;
@@ -18,6 +18,7 @@ public:
   // Command Line Parameters Constructor
   IFSArgParser(int argc, char* argv[]) : ArgParser()
   {
+    std::cout << input_file << std::endl;
     for (int i = 1; i < argc; i++) {
       if ( !strcmp(argv[i], "-iterations") || !strcmp(argv[i], "-iters") ) {
         ++i; assert(i < argc);
@@ -32,10 +33,16 @@ public:
       }
       else if ( !strcmp(argv[i],"-input") || !strcmp(argv[i],"-i") ) {
         ++i; assert(i < argc);
+        std::cout << input_file << std::endl;
         separate_path_and_file(std::string(argv[i]), input_path, input_file);
+        std::cout << input_file << std::endl;
       }
       else if ( !strcmp(argv[i], "-shaders") ) {
-        // Do something
+        assert(i+3 < argc);
+        std::string temp;
+        separate_path_and_file(std::string(argv[++i]), shader_path, temp);
+        separate_path_and_file(std::string(argv[++i]), temp, vertex_shader);
+        separate_path_and_file(std::string(argv[++i]), temp, fragment_shader);
       }
       else {
         std::cerr << "Unknown parameter: " << argv[i] << " ... skipping" << std::endl;

@@ -31,13 +31,15 @@ inline void separate_path_and_file(const std::string &full_path, std::string& pa
 
 class ArgParser {
 public:
-  // File paths and names
+  // default input
   std::string input_path = "../inputs";
   std::string input_file = "example.obj";
-  std::string source_path = "../src";
+  // default shaders and shader location
+  std::string shader_path = "../shaders";
   std::string vertex_shader = "default.vs";
   std::string fragment_shader = "default.fs";
-  // Window parameters
+  // View parameters
+  std::string camera = "orthographic";
   int width = 500;
   int height = 500;
 
@@ -46,22 +48,29 @@ public:
   ArgParser() {}
   // Parse accepted paramters from command line at runtime
   ArgParser(int argc, char* argv[]) {
-    for (int i = 1; i < argc; i++) {
-      if ( !strcmp(argv[i],"-input") || !strcmp(argv[i],"-i") ) {
-        ++i; assert(i < argc);
-        separate_path_and_file(std::string(argv[i]), input_path, input_file);
-      }
-      else if ( !strcmp(argv[i], "-shaders") ) {
-        // Do something
-      }
-      else {
-        std::cerr << "Unknown parameter: " << argv[i] << " ... skipping" << std::endl;
-      }
-    }
+    for (int i = 1; i < argc; i++) ParseCommand(argc,argv,i);
   }
 
   // Destructor, trivial
   ~ArgParser() {}
+
+  virtual void ParseCommand(int argc, char* argv[], int& i) {
+    if ( !strcmp(argv[i],"-input") || !strcmp(argv[i],"-i") ) {
+      ++i; assert(i < argc);
+      std::cout << input_file << std::endl;
+      separate_path_and_file(std::string(argv[i]), input_path, input_file);
+      std::cout << input_file << std::endl;
+    }
+    else if ( !strcmp(argv[i], "-shaders") ) {
+      ++i; assert(i < argc);
+      separate_path_and_file(std::string(argv[i]), shader_path, vertex_shader);
+      ++i; assert(i < argc);
+      separate_path_and_file(std::string(argv[i]), shader_path, fragment_shader);
+    }
+    else {
+      std::cerr << "Unknown parameter: " << argv[i] << " ... skipping" << std::endl;
+    }
+  }
 };
 
 #endif

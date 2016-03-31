@@ -1,5 +1,5 @@
 #include "IFS.hpp"
-#include "../core/utility.hpp"
+#include "../../base/Utility.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -7,7 +7,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 IFS::IFS(IFSArgParser* _args)
-: GLProgram() {
+: Model() {
   args = _args;
 
   if (args->deterministic) rng = MTRand(87);
@@ -51,20 +51,20 @@ IFS::~IFS() {
 }
 
 // IFS Program Driver Functions ================================================
-void IFS::Setup() {
+void IFS::Create() {
   HandleGLError("Entered IFS::Setup");
   SetupPoints();
   HandleGLError("Finished IFS::Setup");
 }
 
-void IFS::Update(GLuint matrix_id, const glm::mat4 m) {
+void IFS::Alter(GLuint matrix_id, const glm::mat4 m) {
   HandleGLError("Entered IFS::Update");
   glUniformMatrix4fv(matrix_id, 1, GL_FALSE, &m[0][0]);
   DrawPoints();
   HandleGLError("Finished IFS::Update");
 }
 
-void IFS::Cleanup() {
+void IFS::Delete() {
   HandleGLError("Entered IFS::Cleanup");
   CleanupPoints();
   HandleGLError("Finished IFS::Cleanup");
@@ -100,6 +100,7 @@ void IFS::SetupPoints() {
     // Put location and color into point array
     points[i].position = pt;
     points[i].color = glm::vec4(0.0f,0.0f,0.0f,1.0f);
+    bbox.Extend(glm::vec3(pt));
   }
 
   // Heavy GL stuff
