@@ -6,6 +6,8 @@
 
 #include "GLContext.hpp"
 
+#include <cmath>
+
 ArgParser* GLContext::args = NULL;
 Camera* GLContext::camera = NULL;
 Model* GLContext::model = NULL;
@@ -68,22 +70,20 @@ void GLContext::Initialize(ArgParser* _args, Model* _model) {
   glfwSetMouseButtonCallback(window, InputManager::OnMouseClick);
   glfwSetKeyCallback(window, InputManager::OnKeyEvent);
 
-  ProgramID = LoadShaders(args->shader_path + '/' + args->vertex_shader,
-                          args->shader_path + '/' + args->fragment_shader);
+  // ProgramID = LoadShaders(args->shader_path + '/' + args->vertex_shader,
+  //                         args->shader_path + '/' + args->fragment_shader);
+  ProgramID = LoadShaders(args->get_vs_path(), args->get_fs_path());
 
   model->Create();
 
   // Camera setup
-  glm::vec3 camera_position = glm::vec3(2.0,2.0,2.0);
-  glm::vec3 point_of_interest = glm::vec3(0.5,0.5,0.5);
   glm::vec3 up = glm::vec3(0,1,0);
+  glm::vec3 point_of_interest = model->bbox.getCenter();
 
-  model->bbox.getCenter(point_of_interest);
-  camera_position = point_of_interest + glm::vec3(3.0*model->bbox.maxDim());
-  std::cout << point_of_interest.x << " " << point_of_interest.y << " " << point_of_interest.z << std::endl;
-  std::cout << camera_position.x << " " << camera_position.y << " " << camera_position.z << std::endl;
+  double offset = sqrt(3.0 * (model->bbox.maxDim() * model->bbox.maxDim()));
+  glm::vec3 camera_position = point_of_interest + glm::vec3(offset);
 
-  // program uses an orthographic camera (add option to change later??)
+  // program can use either an orthographic camera or a perspective camera
   if (args->camera == "orthographic") {
     float size = 1.3;
     camera = new OrthographicCamera(camera_position,point_of_interest,up,size);
@@ -96,9 +96,8 @@ void GLContext::Initialize(ArgParser* _args, Model* _model) {
 
   camera->place();
   // End Camera setup
-
   // Initialization finished
-  HandleGLError("GLProgramManager initialization finished");
+  HandleGLError("GLContext initialization finished");
 }
 
 void GLContext::Cleanup() {
@@ -125,7 +124,6 @@ void GLContext::Run() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(ProgramID);
 
-    camera->place();
     glm::mat4 projection_matrix = camera->getProjectionMatrix();
     glm::mat4 view_matrix = camera->getViewMatrix();
     glm::mat4 model_matrix = glm::mat4(1.0);

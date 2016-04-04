@@ -68,13 +68,14 @@ void Camera::dolly(double dist) {
   float d = glm::length(diff);
   glm::vec3 translate = float(0.005*d*dist)*getDirection();
   position += translate;
+  this->place();
 }
 
 // ====================================================================
 // zoom: Change the field of view/angle
 // ====================================================================
-void OrthographicCamera::zoom(double factor) { size *= pow(1.005,factor); }
-void PerspectiveCamera::zoom(double dist) { angle *= pow(1.003,dist); }
+void OrthographicCamera::zoom(double factor) { size *= pow(1.005,factor); this->place(); }
+void PerspectiveCamera::zoom(double dist) { angle *= pow(1.003,dist); this->place(); }
 
 // ====================================================================
 // truck: Translate camera perpendicular to the direction vector
@@ -86,6 +87,7 @@ void Camera::truck(double dx, double dy) {
   glm::vec3 translate = (d*0.0007f)*(getHorizontal()*float(dx) + getScreenUp()*float(-dy));
   position += translate;
   point_of_interest += translate;
+  this->place();
 }
 
 // ====================================================================
@@ -115,6 +117,7 @@ void Camera::rotate(double rx, double ry) {
   glm::vec4 tmp(position,1);
   tmp = m * tmp;
   position = glm::vec3(tmp.x,tmp.y,tmp.z);
+  this->place();
 }
 
 // ====================================================================

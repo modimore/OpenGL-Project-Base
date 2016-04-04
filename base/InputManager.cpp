@@ -48,12 +48,16 @@ void InputManager::OnMouseMove(GLFWwindow* window, double x, double y) {
 
 void InputManager::OnKeyEvent(GLFWwindow* window, int key, int scancode, int action, int mods) {
   // check modifier keys
-  if (GLFW_MOD_SHIFT & mods) shift_pressed = !shift_pressed;
-  if (GLFW_MOD_CONTROL & mods) ctrl_pressed = !ctrl_pressed;
-  if (GLFW_MOD_ALT & mods) alt_pressed= !alt_pressed;
-  if (GLFW_MOD_SUPER & mods) super_pressed = !super_pressed;
+  if (key == GLFW_KEY_LEFT_SHIFT || key == GLFW_KEY_RIGHT_SHIFT)
+    shift_pressed = (action == GLFW_PRESS || action == GLFW_REPEAT);
+  else if (key == GLFW_KEY_LEFT_CONTROL || key == GLFW_KEY_RIGHT_CONTROL)
+    ctrl_pressed = (action == GLFW_PRESS || action == GLFW_REPEAT);
+  else if (key == GLFW_KEY_LEFT_ALT || key == GLFW_KEY_RIGHT_ALT)
+    alt_pressed = (action == GLFW_PRESS || action == GLFW_REPEAT);
+  else if (key == GLFW_KEY_LEFT_SUPER || key == GLFW_KEY_RIGHT_SUPER)
+    super_pressed = (action == GLFW_PRESS || action == GLFW_REPEAT);
   // action-linked keys
-  if (action == GLFW_PRESS && key < 255) {
+  else if (action == GLFW_PRESS && key < 255) {
     if (key == GLFW_KEY_ESCAPE || key == 'q' || key == 'Q')
       { glfwSetWindowShouldClose(window, GL_TRUE); }
     else

@@ -1,7 +1,7 @@
-#ifndef _IFS_
-#define _IFS_
+#ifndef _CUBE_
+#define _CUBE_
 
-#include "IFSArgParser.hpp"
+#include "CubeArgParser.hpp"
 #include "../../base/Model.hpp"
 #include "MersenneTwister.h"
 
@@ -11,13 +11,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-class IFS : public Model {
+class Cube : public Model {
 public:
-  // Custom IFS ArgParser
-  IFSArgParser* args;
+  // Custom Cube ArgParser
+  CubeArgParser* args;
   // Constructor
-  IFS(IFSArgParser* _args);
-  ~IFS();
+  Cube(CubeArgParser* _args);
+  ~Cube();
 
   // Driver functions
   void Create();
@@ -25,15 +25,10 @@ public:
   void Delete();
 
   // Point mode
-  void SetupPoints();
-  void DrawPoints();
-  void CleanupPoints();
+  void Setup();
+  void Draw();
+  void Cleanup();
 
-  // Member Variables
-  unsigned int num_transforms;
-  glm::mat4* transforms;
-  float* transform_probabilities;
-  MTRand rng;
   GLuint vao_id;
   GLuint vbo_id;
 };

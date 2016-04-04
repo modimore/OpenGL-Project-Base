@@ -17,4 +17,13 @@ public:
   virtual void Destroy() {}
 };
 
+struct VertexPosColor {
+public:
+  glm::vec4 position;
+  glm::vec4 color;
+
+  VertexPosColor(const glm::vec4& pos,const glm::vec4& col)
+  { position = pos; color = col; }
+};
+
 #endif

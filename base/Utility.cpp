@@ -119,3 +119,7 @@ int HandleGLError(const std::string &message, bool ignore) {
   return 0;
 }
 // =============================================================================
+
+void vec3print(const glm::vec3& p) {
+  std::cout << "vec3(" << p.x << "," << p.y << "," << p.z << ")" << std::endl;
+}

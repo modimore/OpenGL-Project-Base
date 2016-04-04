@@ -57,9 +57,7 @@ public:
   virtual void ParseCommand(int argc, char* argv[], int& i) {
     if ( !strcmp(argv[i],"-input") || !strcmp(argv[i],"-i") ) {
       ++i; assert(i < argc);
-      std::cout << input_file << std::endl;
       separate_path_and_file(std::string(argv[i]), input_path, input_file);
-      std::cout << input_file << std::endl;
     }
     else if ( !strcmp(argv[i], "-shaders") ) {
       ++i; assert(i < argc);
@@ -71,6 +69,9 @@ public:
       std::cerr << "Unknown parameter: " << argv[i] << " ... skipping" << std::endl;
     }
   }
+
+  virtual std::string get_vs_path() { return shader_path + "/" + vertex_shader; }
+  virtual std::string get_fs_path() { return shader_path + "/" + fragment_shader; }
 };
 
 #endif

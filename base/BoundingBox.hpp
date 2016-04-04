@@ -25,12 +25,7 @@ public:
   }
   glm::vec3 getMin() const { return minimum; }
   glm::vec3 getMax() const { return maximum; }
-  void getCenter(glm::vec3 &c) const {
-    c  = maximum;
-    c -= minimum;
-    c *= 0.5f;
-    c += minimum;
-  }
+  glm::vec3 getCenter() const { return (maximum + minimum) * 0.5f; }
   double maxDim() const {
     double x = maximum.x - minimum.x;
     double y = maximum.y - minimum.y;

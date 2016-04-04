@@ -16,4 +16,6 @@ GLuint LoadShaders(const std::string& vs_path, const std::string& fs_path);
 std::string WhichGLError(GLenum& error);
 int HandleGLError(const std::string& message = "", bool ignore=false);
 
+void vec3print(const glm::vec3& p);
+
 #endif
