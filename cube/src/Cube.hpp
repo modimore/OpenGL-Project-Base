@@ -15,22 +15,22 @@ class Cube : public Model {
 public:
   // Custom Cube ArgParser
   CubeArgParser* args;
+  std::vector<glm::vec4> vertices;
   // Constructor
   Cube(CubeArgParser* _args);
   ~Cube();
 
-  // Driver functions
-  void Create();
-  void Alter(GLuint matrix_id, const glm::mat4 m);
-  void Delete();
+  void Update(const glm::mat4& m) {}
+  std::vector<VertexPosColor> getVertices();
+  int numVertices() { return 36; }
+};
 
-  // Point mode
-  void Setup();
-  void Draw();
-  void Cleanup();
+struct ColoredFace {
+  int sides[4];
+  glm::vec4 color;
 
-  GLuint vao_id;
-  GLuint vbo_id;
+  ColoredFace(int _sides[], glm::vec4 _color = glm::vec4(0.5f,0.5f,0.5f,1.0f))
+  { for (int i = 0; i < 4; i++) sides[i] = _sides[i]; color = _color; }
 };
 
 #endif

@@ -6,132 +6,62 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
+// Constructor and Destructor ==================================================
 Cube::Cube(CubeArgParser* _args)
 : Model() {
   args = _args;
+
+  vertices = std::vector<glm::vec4>(8);
+  vertices[0] = glm::vec4(-0.5,-0.5,-0.5, 1.0);
+  vertices[1] = glm::vec4(-0.5,-0.5, 0.5, 1.0);
+  vertices[2] = glm::vec4( 0.5,-0.5,-0.5, 1.0);
+  vertices[3] = glm::vec4( 0.5,-0.5, 0.5, 1.0);
+  vertices[4] = glm::vec4(-0.5, 0.5,-0.5, 1.0);
+  vertices[5] = glm::vec4(-0.5, 0.5, 0.5, 1.0);
+  vertices[6] = glm::vec4( 0.5, 0.5,-0.5, 1.0);
+  vertices[7] = glm::vec4( 0.5, 0.5, 0.5, 1.0);
+
+  for (unsigned int i = 0; i < vertices.size(); i++)
+  { bbox.Extend(glm::vec3(vertices[i])); }
 }
 
 Cube::~Cube() { }
-
-// Cube Program Driver Functions ================================================
-void Cube::Create() {
-  HandleGLError("Entered Cube::Setup");
-  Setup();
-  HandleGLError("Finished Cube::Setup");
-}
-
-void Cube::Alter(GLuint matrix_id, const glm::mat4 m) {
-  HandleGLError("Entered Cube::Update");
-  glUniformMatrix4fv(matrix_id, 1, GL_FALSE, &m[0][0]);
-  Draw();
-  HandleGLError("Finished Cube::Update");
-}
-
-void Cube::Delete() {
-  HandleGLError("Entered Cube::Cleanup");
-  Cleanup();
-  HandleGLError("Finished Cube::Cleanup");
-}
 // =============================================================================
 
-// Point Mode Functions ========================================================
-void Cube::Setup() {
-  HandleGLError("Entered Cube::SetupPoints");
+// Vertex export ===============================================================
+std::vector<VertexPosColor> Cube::getVertices() {
+  std::vector<VertexPosColor> output(36);
 
-  // Bindings
-  glGenVertexArrays(1, &vao_id);
-  glBindVertexArray(vao_id);
-  glGenBuffers(1, &vbo_id);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
+  //             ^       ^       ^       ^       ^       ^      //
+  int f_i[24] = {0,4,2,6,1,3,5,7,0,2,1,3,4,5,6,7,0,1,4,5,2,6,3,7};
+  //             ^       ^       ^       ^       ^       ^      //
+  std::vector<ColoredFace> faces;
+  faces.push_back(ColoredFace(f_i   , glm::vec4(0,1,1, 1.0f)));
+  faces.push_back(ColoredFace(f_i+ 4, glm::vec4(1,0,0, 1.0f)));
+  faces.push_back(ColoredFace(f_i+ 8, glm::vec4(1,0,1, 1.0f)));
+  faces.push_back(ColoredFace(f_i+12, glm::vec4(0,1,0, 1.0f)));
+  faces.push_back(ColoredFace(f_i+16, glm::vec4(1,1,0, 1.0f)));
+  faces.push_back(ColoredFace(f_i+20, glm::vec4(0,0,1, 1.0f)));
 
-  glm::vec4 v8[8];
-  v8[0] = glm::vec4(-0.5,-0.5,-0.5, 1.0);
-  v8[2] = glm::vec4(-0.5, 0.5,-0.5, 1.0);
-  v8[6] = glm::vec4( 0.5, 0.5,-0.5, 1.0);
-  v8[4] = glm::vec4( 0.5,-0.5,-0.5, 1.0);
-  v8[1] = glm::vec4(-0.5,-0.5, 0.5, 1.0);
-  v8[3] = glm::vec4(-0.5, 0.5, 0.5, 1.0);
-  v8[7] = glm::vec4( 0.5, 0.5, 0.5, 1.0);
-  v8[5] = glm::vec4( 0.5,-0.5, 0.5, 1.0);
+  // back   cyan   0 2 6 0 6 4
+  // front  red    1 7 3 1 5 7
+  // bottom purple 0 5 1 0 4 5
+  // top    green  2 3 7 2 7 6
+  // left   yellow 0 1 3 0 3 2
+  // right  blue   4 7 5 4 6 7
 
-  for (unsigned int i = 0; i < 8; i++) bbox.Extend(glm::vec3(v8[i]));
+  for (int i = 0; i < 6; i++) {
+    int start = 6*i;
+    // first triangle
+    output[start  ] = VertexPosColor(vertices[faces[i].sides[0]],faces[i].color);
+    output[start+1] = VertexPosColor(vertices[faces[i].sides[1]],faces[i].color);
+    output[start+2] = VertexPosColor(vertices[faces[i].sides[3]],faces[i].color);
+    // second triangle
+    output[start+3] = VertexPosColor(vertices[faces[i].sides[0]],faces[i].color);
+    output[start+4] = VertexPosColor(vertices[faces[i].sides[3]],faces[i].color);
+    output[start+5] = VertexPosColor(vertices[faces[i].sides[2]],faces[i].color);
+  }
 
-  VertexPosColor all_vertices[36] =
-  {
-    // back face, cyan 0 2 6 0 6 4
-    VertexPosColor(v8[0],glm::vec4(0,1,1, 1.0f)),
-    VertexPosColor(v8[2],glm::vec4(0,1,1, 1.0f)),
-    VertexPosColor(v8[6],glm::vec4(0,1,1, 1.0f)),
-
-    VertexPosColor(v8[0],glm::vec4(0,1,1, 1.0f)),
-    VertexPosColor(v8[6],glm::vec4(0,1,1, 1.0f)),
-    VertexPosColor(v8[4],glm::vec4(0,1,1, 1.0f)),
-
-    // front face, red 1 7 3 1 5 7
-    VertexPosColor(v8[1],glm::vec4(1,0,0, 1.0f)),
-    VertexPosColor(v8[7],glm::vec4(1,0,0, 1.0f)),
-    VertexPosColor(v8[3],glm::vec4(1,0,0, 1.0f)),
-
-    VertexPosColor(v8[1],glm::vec4(1,0,0, 1.0f)),
-    VertexPosColor(v8[5],glm::vec4(1,0,0, 1.0f)),
-    VertexPosColor(v8[7],glm::vec4(1,0,0, 1.0f)),
-
-    // bottom face, purple 0 5 1 0 4 5
-    VertexPosColor(v8[0],glm::vec4(1,0,1, 1.0f)),
-    VertexPosColor(v8[5],glm::vec4(1,0,1, 1.0f)),
-    VertexPosColor(v8[1],glm::vec4(1,0,1, 1.0f)),
-
-    VertexPosColor(v8[0],glm::vec4(1,0,1, 1.0f)),
-    VertexPosColor(v8[4],glm::vec4(1,0,1, 1.0f)),
-    VertexPosColor(v8[5],glm::vec4(1,0,1, 1.0f)),
-
-    // top face, green 2 3 7 2 7 6
-    VertexPosColor(v8[2],glm::vec4(0,1,0, 1.0f)),
-    VertexPosColor(v8[3],glm::vec4(0,1,0, 1.0f)),
-    VertexPosColor(v8[7],glm::vec4(0,1,0, 1.0f)),
-
-    VertexPosColor(v8[2],glm::vec4(0,1,0, 1.0f)),
-    VertexPosColor(v8[7],glm::vec4(0,1,0, 1.0f)),
-    VertexPosColor(v8[6],glm::vec4(0,1,0, 1.0f)),
-
-    // left face, yellow 0 1 3 0 3 2
-    VertexPosColor(v8[0],glm::vec4(1,1,0, 1.0f)),
-    VertexPosColor(v8[1],glm::vec4(1,1,0, 1.0f)),
-    VertexPosColor(v8[3],glm::vec4(1,1,0, 1.0f)),
-
-    VertexPosColor(v8[0],glm::vec4(1,1,0, 1.0f)),
-    VertexPosColor(v8[3],glm::vec4(1,1,0, 1.0f)),
-    VertexPosColor(v8[2],glm::vec4(1,1,0, 1.0f)),
-
-    // right face, blue 4 7 5 4 6 7
-    VertexPosColor(v8[4],glm::vec4(0,0,1, 1.0f)),
-    VertexPosColor(v8[7],glm::vec4(0,0,1, 1.0f)),
-    VertexPosColor(v8[5],glm::vec4(0,0,1, 1.0f)),
-
-    VertexPosColor(v8[4],glm::vec4(0,0,1, 1.0f)),
-    VertexPosColor(v8[6],glm::vec4(0,0,1, 1.0f)),
-    VertexPosColor(v8[7],glm::vec4(0,0,1, 1.0f))
-  };
-
-  glBufferData(GL_ARRAY_BUFFER, sizeof(all_vertices), all_vertices, GL_STATIC_DRAW);
-  
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(VertexPosColor), 0);
-  glEnableVertexAttribArray(1);
-  glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(VertexPosColor), (GLvoid*)sizeof(glm::vec4));
-  HandleGLError("Finished Cube::SetupPoints");
-}
-
-void Cube::Draw() {
-  HandleGLError("Entered Cube::DrawPoints");
-  glDrawArrays(GL_TRIANGLES,0,36);
-  HandleGLError("Finished Cube::DrawPoints");
-}
-
-void Cube::Cleanup() {
-  HandleGLError("Entered Cube::CleanupPoints");
-  glDeleteBuffers(1,&vao_id);
-  glDeleteBuffers(1,&vbo_id);
-  HandleGLError("Finished Cube::CleanupPoints");
+  return output;
 }
 // =============================================================================

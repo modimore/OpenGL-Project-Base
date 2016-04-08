@@ -2,6 +2,7 @@
 #include "InputManager.hpp"
 #include "Camera.hpp"
 #include "Model.hpp"
+#include "Scene.hpp"
 #include "Utility.hpp"
 
 #include "GLContext.hpp"
@@ -10,15 +11,15 @@
 
 ArgParser* GLContext::args = NULL;
 Camera* GLContext::camera = NULL;
-Model* GLContext::model = NULL;
+Scene* GLContext::scene = NULL;
 
 GLFWwindow* GLContext::window = NULL;
 
 GLuint GLContext::ProgramID;
 
-void GLContext::Initialize(ArgParser* _args, Model* _model) {
+void GLContext::Initialize(ArgParser* _args, Scene* _scene) {
   args = _args;
-  model = _model;
+  scene = _scene;
 
   // GLFW setup
   glfwSetErrorCallback(ErrorCallback);
@@ -74,13 +75,11 @@ void GLContext::Initialize(ArgParser* _args, Model* _model) {
   //                         args->shader_path + '/' + args->fragment_shader);
   ProgramID = LoadShaders(args->get_vs_path(), args->get_fs_path());
 
-  model->Create();
-
   // Camera setup
   glm::vec3 up = glm::vec3(0,1,0);
-  glm::vec3 point_of_interest = model->bbox.getCenter();
+  glm::vec3 point_of_interest = scene->bbox.getCenter();
 
-  double offset = sqrt(3.0 * (model->bbox.maxDim() * model->bbox.maxDim()));
+  double offset = sqrt(3.0 * (scene->bbox.maxDim() * scene->bbox.maxDim()));
   glm::vec3 camera_position = point_of_interest + glm::vec3(offset);
 
   // program can use either an orthographic camera or a perspective camera
@@ -95,13 +94,14 @@ void GLContext::Initialize(ArgParser* _args, Model* _model) {
   }
 
   camera->place();
+  scene->Initialize();
   // End Camera setup
   // Initialization finished
   HandleGLError("GLContext initialization finished");
 }
 
 void GLContext::Cleanup() {
-  model->Destroy();
+  scene->Cleanup();
 
   glDeleteProgram(ProgramID);
   glfwDestroyWindow(window);
@@ -129,8 +129,10 @@ void GLContext::Run() {
     glm::mat4 model_matrix = glm::mat4(1.0);
     glm::mat4 MVP = projection_matrix * view_matrix * model_matrix;
 
-    // Call GLProgram Update function
-    model->Alter(matrix_id,MVP);
+    glUniformMatrix4fv(matrix_id, 1, GL_FALSE, &MVP[0][0]);
+
+    scene->Update();
+    scene->Render();
 
     glfwSwapBuffers(window);
     glfwPollEvents();

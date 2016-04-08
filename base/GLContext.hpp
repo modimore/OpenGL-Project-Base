@@ -15,19 +15,19 @@
 
 class ArgParser;
 class Camera;
-class Model;
+class Scene;
 
 class GLContext {
 public:
   static ArgParser* args;
   static Camera* camera;
-  static Model* model;
+  static Scene* scene;
   static GLFWwindow* window;
 
   // GL Context Variables
   static GLuint ProgramID;
 
-  static void Initialize(ArgParser* _args, Model* _model);
+  static void Initialize(ArgParser* _args, Scene* _scene);
   static void Cleanup();
   static void Run();
   static void ErrorCallback(int error, const char* message);
