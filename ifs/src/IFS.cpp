@@ -1,4 +1,5 @@
 #include "IFS.hpp"
+#include "../../base/Geometry.hpp"
 #include "../../base/Utility.hpp"
 
 #include <iostream>
@@ -7,9 +8,11 @@
 #include <glm/gtc/type_ptr.hpp>
 
 IFS::IFS(IFSArgParser* _args)
-: Model() {
+: Scene() {
   args = _args;
 
+  bbox.Extend(glm::vec3(0.0,0.0,0.0));
+  bbox.Extend(glm::vec3(1.0,1.0,1.0));
   if (args->deterministic) rng = MTRand(87);
   else rng = MTRand();
 
@@ -51,20 +54,19 @@ IFS::~IFS() {
 }
 
 // IFS Program Driver Functions ================================================
-void IFS::Create() {
+void IFS::Initialize() {
   HandleGLError("Entered IFS::Setup");
   SetupPoints();
   HandleGLError("Finished IFS::Setup");
 }
 
-void IFS::Alter(GLuint matrix_id, const glm::mat4 m) {
+void IFS::Render() {
   HandleGLError("Entered IFS::Update");
-  glUniformMatrix4fv(matrix_id, 1, GL_FALSE, &m[0][0]);
   DrawPoints();
   HandleGLError("Finished IFS::Update");
 }
 
-void IFS::Delete() {
+void IFS::Cleanup() {
   HandleGLError("Entered IFS::Cleanup");
   CleanupPoints();
   HandleGLError("Finished IFS::Cleanup");

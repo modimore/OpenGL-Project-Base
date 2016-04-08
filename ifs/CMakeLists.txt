@@ -7,6 +7,7 @@ add_executable(ifs
   ../base/GLContext.cpp
   ../base/Camera.cpp
   ../base/InputManager.cpp
+  ../base/Scene.cpp
   ../base/Utility.cpp
   src/IFS.cpp
 )

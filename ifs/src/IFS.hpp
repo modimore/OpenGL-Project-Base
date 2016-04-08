@@ -2,7 +2,7 @@
 #define _IFS_
 
 #include "IFSArgParser.hpp"
-#include "../../base/Model.hpp"
+#include "../../base/Scene.hpp"
 #include "MersenneTwister.h"
 
 #include <GL/glew.h>
@@ -11,7 +11,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-class IFS : public Model {
+class IFS : public Scene {
 public:
   // Custom IFS ArgParser
   IFSArgParser* args;
@@ -20,9 +20,9 @@ public:
   ~IFS();
 
   // Driver functions
-  void Create();
-  void Alter(GLuint matrix_id, const glm::mat4 m);
-  void Delete();
+  void Initialize();
+  void Render();
+  void Cleanup();
 
   // Point mode
   void SetupPoints();
