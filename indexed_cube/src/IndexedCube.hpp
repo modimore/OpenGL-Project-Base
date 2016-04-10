@@ -2,7 +2,7 @@
 #define _INDEXED_CUBE_
 
 #include "CubeArgParser.hpp"
-#include "../../base/Model.hpp"
+#include "../../base/IndexedModel.hpp"
 #include "MersenneTwister.h"
 
 #include <GL/glew.h>
@@ -11,7 +11,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-class IndexedCube : public Model {
+class IndexedCube : public IndexedModel {
 public:
   // Custom Cube ArgParser
   CubeArgParser* args;

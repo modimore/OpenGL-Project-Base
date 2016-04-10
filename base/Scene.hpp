@@ -3,29 +3,24 @@
 
 #include <vector>
 
-#include "Model.hpp"
 #include "BoundingBox.hpp"
+
+class Model;
 
 class Scene {
 public:
   BoundingBox bbox;
-  Model* model;
   bool updated = true;
-  unsigned int num_vertices = 0;
 
   // Create scene and manage models
   Scene() { bbox = BoundingBox(); }
-  virtual void AddModel(Model* m);
 
   virtual void Update() {}
 
-  virtual void Initialize();
-  virtual void Render();
-  virtual void Cleanup();
-
-private:
-  GLuint vao_id;
-  GLuint vertices_vbo_id;
+  virtual void Initialize() {}
+  virtual void Buffer() {}
+  virtual void Render() {}
+  virtual void Cleanup() {}
 };
 
 #endif

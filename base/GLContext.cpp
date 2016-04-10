@@ -1,7 +1,6 @@
 #include "ArgParser.hpp"
 #include "InputManager.hpp"
 #include "Camera.hpp"
-#include "Model.hpp"
 #include "Scene.hpp"
 #include "Utility.hpp"
 

@@ -7,10 +7,9 @@ add_executable(indexed_cube
   ../base/GLContext.cpp
   ../base/Camera.cpp
   ../base/InputManager.cpp
-  ../base/Scene.cpp
+  ../base/IndexedScene.cpp
   ../base/Utility.cpp
   src/IndexedCube.cpp
-  src/IndexedCubeScene.cpp
 )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

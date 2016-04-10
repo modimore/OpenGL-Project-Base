@@ -8,7 +8,7 @@
 
 // Constructor and Destructor ==================================================
 IndexedCube::IndexedCube(CubeArgParser* _args)
-: Model() {
+: IndexedModel() {
   args = _args;
 
   // fill vertex array
