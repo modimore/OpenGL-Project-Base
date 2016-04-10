@@ -82,7 +82,7 @@ void GLContext::Initialize(ArgParser* _args, Scene* _scene) {
   glm::vec3 camera_position = point_of_interest + glm::vec3(offset);
   // program can use either an orthographic camera or a perspective camera
   if (args->camera == "orthographic") {
-    float size = 1.3;
+    float size = 2.0 * scene->bbox.maxDim();
     camera = new OrthographicCamera(camera_position,point_of_interest,up,size);
   }
   else
