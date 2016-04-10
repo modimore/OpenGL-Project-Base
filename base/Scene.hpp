@@ -10,7 +10,7 @@ class Scene {
 public:
   BoundingBox bbox;
   Model* model;
-  bool model_updated = true;
+  bool updated = true;
   unsigned int num_vertices = 0;
 
   // Create scene and manage models
