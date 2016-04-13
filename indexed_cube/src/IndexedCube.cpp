@@ -7,9 +7,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 // Constructor and Destructor ==================================================
-IndexedCube::IndexedCube(CubeArgParser* _args)
+IndexedCube::IndexedCube()
 : IndexedModel() {
-  args = _args;
 
   // fill vertex array
   vertices = std::vector<glm::vec4>(8);

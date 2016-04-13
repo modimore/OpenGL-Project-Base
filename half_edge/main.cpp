@@ -6,17 +6,16 @@
 #include "../base/GLContext.hpp"
 #include "../base/Camera.hpp"
 #include "../base/InputManager.hpp"
-#include "../base/ArgParser.hpp"
 #include "../base/IndexedScene.hpp"
 
-#include "src/IndexedCube.hpp"
+#include "../base/ArgParser.hpp"
+#include "src/HalfEdgeModel.hpp"
 
 int main(int argc, char* argv[]) {
-
-  ArgParser args = ArgParser(argc,argv);
-  IndexedCube cube = IndexedCube();
+  ArgParser args = ArgParser(argc, argv);
+  HalfEdgeModel hedge = HalfEdgeModel();
   IndexedScene scene = IndexedScene();
-  scene.AddModel(&cube);
+  scene.AddModel(&hedge);
   GLContext::Initialize(&args,&scene);
   GLContext::Run();
   GLContext::Cleanup();

@@ -7,10 +7,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 // Constructor and Destructor ==================================================
-Cube::Cube(CubeArgParser* _args)
+Cube::Cube()
 : Model() {
-  args = _args;
-
   vertices = std::vector<glm::vec4>(8);
   vertices[0] = glm::vec4(-0.5,-0.5,-0.5, 1.0);
   vertices[1] = glm::vec4(-0.5,-0.5, 0.5, 1.0);
