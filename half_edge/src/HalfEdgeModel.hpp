@@ -19,7 +19,10 @@ public:
 
   // Constructor
   HalfEdgeModel();
+  HalfEdgeModel(const char input_fname[]);
   ~HalfEdgeModel();
+
+  void LoadOBJ(const char input_fname[]);
 
   void Update(const glm::mat4& m) {}
 
@@ -29,6 +32,7 @@ public:
   int numVertices() { return vertices.size(); }
   int numTriangles() { return triangles.size(); }
 
+  void addVertex(glm::vec4 pos, glm::vec4 color=glm::vec4(0.5,0.5,0.5,1.0));
   void addTriangle(Vertex* a, Vertex* b, Vertex* c);
 };
 
