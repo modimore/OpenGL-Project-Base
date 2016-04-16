@@ -33,7 +33,7 @@ class ArgParser {
 public:
   // default input
   std::string input_path = "../inputs";
-  std::string input_file = "example.obj";
+  std::string input_file = "cube.obj";
   // default shaders and shader location
   std::string shader_path = "../shaders";
   std::string vertex_shader = "default.vs";
@@ -70,6 +70,7 @@ public:
     }
   }
 
+  virtual std::string get_input_path() { return input_path + "/" + input_file; }
   virtual std::string get_vs_path() { return shader_path + "/" + vertex_shader; }
   virtual std::string get_fs_path() { return shader_path + "/" + fragment_shader; }
 };
