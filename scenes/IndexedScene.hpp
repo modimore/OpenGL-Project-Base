@@ -17,8 +17,6 @@ public:
     num_triangles += model->numTriangles();
   }
 
-  //virtual void Update() {}
-
   virtual void Initialize();
   virtual void Buffer();
   virtual void Render();

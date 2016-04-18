@@ -7,10 +7,11 @@ add_executable(hedge
   ../base/GLContext.cpp
   ../base/Camera.cpp
   ../base/InputManager.cpp
-  ../base/IndexedScene.cpp
   ../base/Utility.cpp
+  ../scenes/IndexedScene.cpp
+  ../models/TriMeshOBJ.cpp
   src/Edge.cpp
-  src/HalfEdgeModel.cpp
+  src/HalfEdgeMesh.cpp
 )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

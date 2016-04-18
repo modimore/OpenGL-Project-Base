@@ -6,6 +6,7 @@
 #include <GL/glew.h>
 
 #include "../base/BoundingBox.hpp"
+#include "../geometry/ShaderInput.hpp"
 
 class Model;
 

@@ -9,12 +9,12 @@
 #include "../base/InputManager.hpp"
 
 #include "../scenes/IndexedScene.hpp"
-#include "src/OBJModel.hpp"
+#include "../models/TriMeshOBJ.hpp"
 
 
 int main(int argc, char* argv[]) {
   ArgParser args = ArgParser(argc, argv);
-  OBJModel tmesh = OBJModel(&(args.get_input_path()[0]));
+  TriMeshOBJ tmesh = TriMeshOBJ(&(args.get_input_path()[0]));
   IndexedScene scene = IndexedScene();
   scene.AddModel(&tmesh);
   GLContext::Initialize(&args,&scene);

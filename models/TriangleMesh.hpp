@@ -17,17 +17,9 @@ public:
     triangles.push_back(new Triangle(a,b,c));
   }
 
-  virtual int numTriangles() { return triangles.size(); }
-  virtual std::vector<unsigned int> getTriVertIndices() {
-    std::vector<unsigned int> output(triangles.size()*3);
-    for (unsigned int i = 0; i < triangles.size(); i++) {
-      unsigned int start = i*3;
-      // first triangle
-      output[start  ] = (*triangles[i])[0]->getID();
-      output[start+1] = (*triangles[i])[1]->getID();
-      output[start+2] = (*triangles[i])[2]->getID();
-    }
-    return output;
+  virtual unsigned int numTriangles() { return triangles.size(); }
+  virtual const std::vector<Triangle*> getTriangles() const {
+    return triangles;
   }
 };
 

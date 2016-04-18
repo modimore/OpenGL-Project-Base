@@ -4,11 +4,9 @@
 #include <vector>
 
 #define GLM_FORCE_RADIANS
-//#include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "../geometry/ShaderInput.hpp"
 #include "../base/BoundingBox.hpp"
 
 #include "../geometry/Vertex.hpp"
@@ -39,14 +37,9 @@ public:
 
   // Accessors
   // -- Vertices
-  virtual int numVertices() { return vertices.size(); }
-  virtual std::vector<VertexPosColor> getVertices() {
-    std::vector<VertexPosColor> output(vertices.size());
-    for (unsigned int i = 0; i < output.size(); i++) {
-      output[i] = VertexPosColor(vertices[i]->getPosition(),
-                                 vertices[i]->getColor());
-    }
-    return output;
+  virtual unsigned int numVertices() { return vertices.size(); }
+  virtual const std::vector<Vertex*>& getVertices() const {
+    return vertices;
   }
 };
 

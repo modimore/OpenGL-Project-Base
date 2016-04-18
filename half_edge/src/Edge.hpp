@@ -2,13 +2,13 @@
 #define _EDGE_HPP_
 
 class Vertex;
-class Triangle;
+class HalfEdgeTriangle;
 
 class Edge {
 private:
   Vertex* start;
   Vertex* end;
-  Triangle* tri;
+  HalfEdgeTriangle* tri;
 
   Edge* next;
   Edge* opposite;
@@ -29,8 +29,8 @@ public:
   void setOpposite(Edge* e);
   Edge* getOpposite() const { return opposite; }
 
-  void setTriangle(Triangle* _tri);
-  Triangle* getTriangle() const { return tri; }
+  void setTriangle(HalfEdgeTriangle* _tri);
+  HalfEdgeTriangle* getTriangle() const { return tri; }
 
   float getLength() const;
 };

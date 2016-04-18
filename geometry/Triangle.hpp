@@ -15,8 +15,13 @@ public:
     vertices[1] = b;
     vertices[2] = c;
   }
+  virtual ~Triangle() {
+    delete vertices[0];
+    delete vertices[1];
+    delete vertices[2];
+  }
 
-  Vertex* operator[](unsigned int i) const {
+  virtual Vertex* operator[](unsigned int i) const {
     if (i < 3 && i >=0) return vertices[i];
     else return NULL;
   }

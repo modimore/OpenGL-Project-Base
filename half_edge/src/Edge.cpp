@@ -1,6 +1,6 @@
 #include "Edge.hpp"
-#include "Vertex.hpp"
-#include "Triangle.hpp"
+#include "../../geometry/Vertex.hpp"
+#include "HalfEdgeTriangle.hpp"
 
 #include <cassert>
 
@@ -36,7 +36,7 @@ void Edge::setOpposite(Edge* e) {
 // =======================================================
 
 // Set triangle ==========================================
-void Edge::setTriangle(Triangle* _tri) {
+void Edge::setTriangle(HalfEdgeTriangle* _tri) {
   tri = _tri;
   if (next->tri != _tri) next->setTriangle(_tri);
 }

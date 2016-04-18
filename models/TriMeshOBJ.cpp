@@ -1,5 +1,5 @@
-#include "OBJModel.hpp"
-#include "../../base/Utility.hpp"
+#include "TriMeshOBJ.hpp"
+#include "../base/Utility.hpp"
 
 #include <string>
 #include <iostream>
@@ -11,8 +11,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 // Constructor and Destructor ==================================================
-OBJModel::OBJModel()
-: TriangleMesh() {
+void TriMeshOBJ::LoadDefault() {
   // fill vertex array
   vertices = std::vector<Vertex*>(4);
   float one_third = 1.0 / 3.0;
@@ -33,10 +32,6 @@ OBJModel::OBJModel()
     addTriangle(vertices[f_i[i]],vertices[f_i[i+1]],vertices[f_i[i+2]]);
   }
 }
-
-OBJModel::OBJModel(const char input_fname[]) {
-  LoadOBJ(input_fname);
-}
 // =============================================================================
 
 // Load from a .obj file =======================================================
@@ -46,12 +41,12 @@ OBJModel::OBJModel(const char input_fname[]) {
 // -- does not bother with vt or vn specification lines
 // -- relatedly only deals with faces without those things (and will crash if they are provided)
 #define MAX_LINE_LENGTH 200
-void OBJModel::LoadOBJ(const char input_fname[]) {
+void TriMeshOBJ::LoadOBJ(const char input_fname[]) {
   std::ifstream istr(input_fname);
   if (!istr) {
     std::cout << "WARNING: We could not open the file provided."
               << "We will produce our default mesh instead." << std::endl;
-    *this = OBJModel();
+    this->LoadDefault();
     return;
   }
 

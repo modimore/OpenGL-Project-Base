@@ -9,7 +9,7 @@ add_executable(tmesh
   ../base/InputManager.cpp
   ../base/Utility.cpp
   ../scenes/IndexedScene.cpp
-  src/OBJModel.cpp
+  ../models/TriMeshOBJ.cpp
 )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

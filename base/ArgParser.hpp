@@ -32,7 +32,7 @@ inline void separate_path_and_file(const std::string &full_path, std::string& pa
 class ArgParser {
 public:
   // default input
-  std::string input_path = "../../inputs/objs";
+  std::string input_path = "../inputs";
   std::string input_file = "cube.obj";
   // default shaders and shader location
   std::string shader_path = "../shaders";
@@ -66,7 +66,7 @@ public:
       separate_path_and_file(std::string(argv[i]), shader_path, fragment_shader);
     }
     else {
-      std::cerr << "Unknown parameter: " << argv[i] << " ... skipping" << std::endl;
+      std::cout << "Unknown parameter: " << argv[i] << " ... skipping" << std::endl;
     }
   }
 
