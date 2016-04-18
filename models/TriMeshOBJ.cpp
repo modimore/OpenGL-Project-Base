@@ -8,17 +8,16 @@
 
 #include <cmath>
 
-#include <glm/gtc/type_ptr.hpp>
+//#include <glm/gtc/type_ptr.hpp>
 
 // Constructor and Destructor ==================================================
 void TriMeshOBJ::LoadDefault() {
   // fill vertex array
   vertices = std::vector<Vertex*>(4);
-  float one_third = 1.0 / 3.0;
-  vertices[0] = new Vertex(glm::vec4(-one_third,-one_third,-one_third,1.0),glm::vec4( 0.0, 0.0, 0.0, 1.0));
-  vertices[1] = new Vertex(glm::vec4( 1.0, 0.0, 0.0, 1.0),glm::vec4( 1.0, 0.0, 0.0, 1.0));
-  vertices[2] = new Vertex(glm::vec4( 0.0, 1.0, 0.0, 1.0),glm::vec4( 0.0, 1.0, 0.0, 1.0));
-  vertices[3] = new Vertex(glm::vec4( 0.0, 0.0, 1.0, 1.0),glm::vec4( 0.0, 0.0, 1.0, 1.0));
+  vertices[0] = new Vertex(glm::vec4(-1.0,-1.0,-1.0, 1.0),glm::vec4( 0.0, 0.0, 0.0, 1.0));
+  vertices[1] = new Vertex(glm::vec4( 3.0, 0.0, 0.0, 1.0),glm::vec4( 1.0, 0.0, 0.0, 1.0));
+  vertices[2] = new Vertex(glm::vec4( 0.0, 3.0, 0.0, 1.0),glm::vec4( 0.0, 1.0, 0.0, 1.0));
+  vertices[3] = new Vertex(glm::vec4( 0.0, 0.0, 3.0, 1.0),glm::vec4( 0.0, 0.0, 1.0, 1.0));
 
   // extend bounding box
   for (unsigned int i = 0; i < vertices.size(); i++) {
@@ -41,8 +40,8 @@ void TriMeshOBJ::LoadDefault() {
 // -- does not bother with vt or vn specification lines
 // -- relatedly only deals with faces without those things (and will crash if they are provided)
 #define MAX_LINE_LENGTH 200
-void TriMeshOBJ::LoadOBJ(const char input_fname[]) {
-  std::ifstream istr(input_fname);
+void TriMeshOBJ::LoadOBJ(std::string input_fname) {
+  std::ifstream istr(&(input_fname[0]));
   if (!istr) {
     std::cout << "WARNING: We could not open the file provided."
               << "We will produce our default mesh instead." << std::endl;

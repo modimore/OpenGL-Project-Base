@@ -17,7 +17,7 @@ public:
 
   // Constructor
   HalfEdgeMesh() : TriMeshOBJ() { LoadDefault(); }
-  HalfEdgeMesh(const char input_fname[]) :
+  HalfEdgeMesh(std::string input_fname) :
   TriMeshOBJ() {
     Reset();
     LoadOBJ(input_fname);

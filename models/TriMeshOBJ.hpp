@@ -6,9 +6,9 @@
 class TriMeshOBJ : public TriangleMesh {
 public:
   TriMeshOBJ() { LoadDefault(); }
-  TriMeshOBJ(const char input_fname[]) { LoadOBJ(input_fname); }
+  TriMeshOBJ(std::string input_fname) { LoadOBJ(input_fname); }
   virtual void LoadDefault();
-  void LoadOBJ(const char input_fname[]);
+  void LoadOBJ(std::string input_fname);
 };
 
 #endif

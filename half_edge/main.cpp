@@ -13,7 +13,7 @@
 
 int main(int argc, char* argv[]) {
   ArgParser args = ArgParser(argc, argv);
-  HalfEdgeMesh hedge = HalfEdgeMesh(&(args.get_input_path()[0]));
+  HalfEdgeMesh hedge = HalfEdgeMesh(args.get_input_path());
   IndexedScene scene = IndexedScene();
   scene.AddModel(&hedge);
   GLContext::Initialize(&args,&scene);
