@@ -18,7 +18,6 @@ public:
   // Command Line Parameters Constructor
   IFSArgParser(int argc, char* argv[]) : ArgParser()
   {
-    std::cout << input_file << std::endl;
     for (int i = 1; i < argc; i++) {
       if ( !strcmp(argv[i], "-iterations") || !strcmp(argv[i], "-iters") ) {
         ++i; assert(i < argc);
@@ -33,9 +32,7 @@ public:
       }
       else if ( !strcmp(argv[i],"-input") || !strcmp(argv[i],"-i") ) {
         ++i; assert(i < argc);
-        std::cout << input_file << std::endl;
         separate_path_and_file(std::string(argv[i]), input_path, input_file);
-        std::cout << input_file << std::endl;
       }
       else if ( !strcmp(argv[i], "-shaders") ) {
         assert(i+3 < argc);

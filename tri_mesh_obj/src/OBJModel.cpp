@@ -1,4 +1,4 @@
-#include "TriangleMesh.hpp"
+#include "OBJModel.hpp"
 #include "../../base/Utility.hpp"
 
 #include <string>
@@ -11,8 +11,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 // Constructor and Destructor ==================================================
-TriangleMesh::TriangleMesh()
-: IndexedModel() {
+OBJModel::OBJModel()
+: TriangleMesh() {
   // fill vertex array
   vertices = std::vector<Vertex*>(4);
   float one_third = 1.0 / 3.0;
@@ -34,11 +34,9 @@ TriangleMesh::TriangleMesh()
   }
 }
 
-TriangleMesh::TriangleMesh(const char input_fname[]) {
+OBJModel::OBJModel(const char input_fname[]) {
   LoadOBJ(input_fname);
 }
-
-TriangleMesh::~TriangleMesh() { }
 // =============================================================================
 
 // Load from a .obj file =======================================================
@@ -48,12 +46,12 @@ TriangleMesh::~TriangleMesh() { }
 // -- does not bother with vt or vn specification lines
 // -- relatedly only deals with faces without those things (and will crash if they are provided)
 #define MAX_LINE_LENGTH 200
-void TriangleMesh::LoadOBJ(const char input_fname[]) {
+void OBJModel::LoadOBJ(const char input_fname[]) {
   std::ifstream istr(input_fname);
   if (!istr) {
     std::cout << "WARNING: We could not open the file provided."
               << "We will produce our default mesh instead." << std::endl;
-    *this = TriangleMesh();
+    *this = OBJModel();
     return;
   }
 
@@ -95,43 +93,3 @@ void TriangleMesh::LoadOBJ(const char input_fname[]) {
 
   std::cout << "Loaded " << numTriangles() << " triangles" << std::endl;
 }
-// =============================================================================
-
-// Add a Triangle ==============================================================
-void TriangleMesh::addVertex(glm::vec4 pos, glm::vec4 color) {
-  int index = vertices.size();
-  vertices.push_back(new Vertex(pos,color));
-  vertices[index]->setID(index);
-  bbox.Extend(glm::vec3(pos));
-}
-
-void TriangleMesh::addTriangle(Vertex* a, Vertex* b, Vertex* c) {
-  triangles.push_back(new Triangle(a,b,c));
-}
-// =============================================================================
-
-// Vertex and Index export =====================================================
-std::vector<VertexPosColor> TriangleMesh::getVertices() {
-  std::vector<VertexPosColor> output(vertices.size());
-
-  for (unsigned int i = 0; i < output.size(); i++) {
-    output[i] = VertexPosColor(vertices[i]->getPosition(),vertices[i]->getColor());
-  }
-
-  return output;
-}
-
-std::vector<unsigned int> TriangleMesh::getTriVertIndices() {
-  std::vector<unsigned int> output(triangles.size()*3);
-
-  for (unsigned int i = 0; i < triangles.size(); i++) {
-    unsigned int start = i*3;
-    // first triangle
-    output[start  ] = (*triangles[i])[0]->getID();
-    output[start+1] = (*triangles[i])[1]->getID();
-    output[start+2] = (*triangles[i])[2]->getID();
-  }
-
-  return output;
-}
-// =============================================================================

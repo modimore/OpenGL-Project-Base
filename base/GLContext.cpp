@@ -1,7 +1,7 @@
 #include "ArgParser.hpp"
 #include "InputManager.hpp"
 #include "Camera.hpp"
-#include "Scene.hpp"
+#include "../scenes/Scene.hpp"
 #include "Utility.hpp"
 
 #include "GLContext.hpp"
@@ -74,15 +74,18 @@ void GLContext::Initialize(ArgParser* _args, Scene* _scene) {
   //                         args->shader_path + '/' + args->fragment_shader);
   ProgramID = LoadShaders(args->get_vs_path(), args->get_fs_path());
 
+  // Initialize the scene in preparation for camera setup
+  scene->Initialize();
+
   // Camera setup
   glm::vec3 up = glm::vec3(0,1,0);
-  glm::vec3 point_of_interest = scene->bbox.getCenter();
 
-  double offset = sqrt(3.0 * (scene->bbox.maxDim() * scene->bbox.maxDim()));
+  double offset = scene->bbox.majorDiagLength();
+  glm::vec3 point_of_interest = scene->bbox.getCenter();
   glm::vec3 camera_position = point_of_interest + glm::vec3(offset);
   // program can use either an orthographic camera or a perspective camera
   if (args->camera == "orthographic") {
-    float size = 2.0 * scene->bbox.maxDim();
+    float size = scene->bbox.majorDiagLength();
     camera = new OrthographicCamera(camera_position,point_of_interest,up,size);
   }
   else
@@ -92,7 +95,6 @@ void GLContext::Initialize(ArgParser* _args, Scene* _scene) {
   }
 
   camera->place();
-  scene->Initialize();
   // End Camera setup
   // Initialization finished
   HandleGLError("GLContext initialization finished");

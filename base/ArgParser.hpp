@@ -32,7 +32,7 @@ inline void separate_path_and_file(const std::string &full_path, std::string& pa
 class ArgParser {
 public:
   // default input
-  std::string input_path = "../inputs";
+  std::string input_path = "../../inputs/objs";
   std::string input_file = "cube.obj";
   // default shaders and shader location
   std::string shader_path = "../shaders";

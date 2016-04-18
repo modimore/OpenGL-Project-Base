@@ -7,6 +7,7 @@
 
 #include <cassert>
 #include <algorithm>
+#include <iostream>
 
 #define NOMINMAX // needed for Windows to allow use of std::min and std::max
 
@@ -27,11 +28,20 @@ public:
   glm::vec3 getMin() const { return minimum; }
   glm::vec3 getMax() const { return maximum; }
   glm::vec3 getCenter() const { return (maximum + minimum) * 0.5f; }
+  double minDim() const {
+    double x = maximum.x - minimum.x;
+    double y = maximum.y - minimum.y;
+    double z = maximum.z - minimum.z;
+    return std::min(x,std::min(y,z));
+  }
   double maxDim() const {
     double x = maximum.x - minimum.x;
     double y = maximum.y - minimum.y;
     double z = maximum.z - minimum.z;
     return std::max(x,std::max(y,z));
+  }
+  double majorDiagLength() const {
+    return glm::length(maximum-minimum);
   }
 
   // Modifiers
@@ -56,6 +66,11 @@ public:
   void Extend(const BoundingBox& bb) {
     Extend(bb.minimum);
     Extend(bb.maximum);
+  }
+
+  void print() {
+    std::cout << "(" << minimum.x << "," << minimum.y << "," << minimum.z << ")" << " -> "
+              << "(" << maximum.x << "," << maximum.y << "," << maximum.z << ")" << std::endl;
   }
 };
 

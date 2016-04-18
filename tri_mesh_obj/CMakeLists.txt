@@ -7,9 +7,9 @@ add_executable(tmesh
   ../base/GLContext.cpp
   ../base/Camera.cpp
   ../base/InputManager.cpp
-  ../base/IndexedScene.cpp
   ../base/Utility.cpp
-  src/TriangleMesh.cpp
+  ../scenes/IndexedScene.cpp
+  src/OBJModel.cpp
 )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

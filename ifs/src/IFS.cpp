@@ -1,5 +1,5 @@
 #include "IFS.hpp"
-#include "../../base/Geometry.hpp"
+#include "../../geometry/ShaderInput.hpp"
 #include "../../base/Utility.hpp"
 
 #include <iostream>
@@ -120,6 +120,7 @@ void IFS::SetupPoints() {
   glPointSize(2.0f);
 
   delete[] points;
+
   HandleGLError("Finished IFS::SetupPoints");
 }
 

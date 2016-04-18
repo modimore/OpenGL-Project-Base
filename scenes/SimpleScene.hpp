@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "Scene.hpp"
-#include "Model.hpp"
+#include "../models/Model.hpp"
 
 class SimpleScene : public Scene {
 public:

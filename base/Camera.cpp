@@ -49,14 +49,14 @@ void OrthographicCamera::place() {
     w = h * aspect;
   }
   ProjectionMatrix = glm::ortho<float>(-w,w,-h,h, 0.1f, 100.0f) ;
-  ViewMatrix =  glm::lookAt(position,point_of_interest,getScreenUp()) ;
+  ViewMatrix = glm::lookAt(position,point_of_interest,getScreenUp());
 }
 
 void PerspectiveCamera::place() {
   glfwGetWindowSize(GLContext::window, &width, &height);
   float aspect = width / (float)height;
   ProjectionMatrix = glm::perspective<float>(glm::radians(angle), aspect, 0.1f, 100.0f);
-  ViewMatrix =  glm::lookAt(position,point_of_interest,getScreenUp()) ;
+  ViewMatrix = glm::lookAt(position,point_of_interest,getScreenUp());
 }
 
 // ====================================================================

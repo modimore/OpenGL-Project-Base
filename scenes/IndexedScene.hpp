@@ -2,15 +2,15 @@
 #define _INDEXED_SCENE_HPP_
 
 #include "Scene.hpp"
-#include "IndexedModel.hpp"
+#include "../models/TriangleMesh.hpp"
 
 class IndexedScene : public Scene {
 public:
-  IndexedModel* model;
+  TriangleMesh* model;
   unsigned int num_vertices = 0;
   unsigned int num_triangles = 0;
 
-  virtual void AddModel(IndexedModel* m) {
+  virtual void AddModel(TriangleMesh* m) {
     model = m;
     bbox.Extend(m->bbox);
     num_vertices += model->numVertices();

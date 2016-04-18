@@ -2,7 +2,7 @@
 #define _IFS_
 
 #include "IFSArgParser.hpp"
-#include "../../base/Scene.hpp"
+#include "../../scenes/Scene.hpp"
 #include "MersenneTwister.h"
 
 #include <GL/glew.h>

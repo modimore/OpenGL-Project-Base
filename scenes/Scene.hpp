@@ -3,7 +3,9 @@
 
 #include <vector>
 
-#include "BoundingBox.hpp"
+#include <GL/glew.h>
+
+#include "../base/BoundingBox.hpp"
 
 class Model;
 
