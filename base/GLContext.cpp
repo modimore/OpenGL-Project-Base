@@ -34,7 +34,12 @@ void GLContext::Initialize(ArgParser* _args, Scene* _scene) {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
+  // This line stops execution (not compilation or linking) on Windows
+  // at least when using Visual Studio 14 (2015) compiler
+#ifndef _WINDOWS
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#endif
 
   window = glfwCreateWindow(args->width,args->height, "OpenGL Viewer", NULL, NULL);
   if (!window) {
