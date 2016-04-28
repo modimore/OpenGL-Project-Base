@@ -6,22 +6,22 @@ class HalfEdgeTriangle;
 
 class Edge {
 private:
-  Vertex* start;
-  Vertex* end;
+  unsigned int start;
+  unsigned int end;
   HalfEdgeTriangle* tri;
 
   Edge* next;
   Edge* opposite;
 
 protected:
-  Vertex* getStartVertex() const { return start; }
-  Vertex* getEndVetex() const { return end; }
+  unsigned int getStartVertex() const { return start; }
+  unsigned int getEndVetex() const { return end; }
 
 public:
-  Edge(Vertex* _start, Vertex* _end);
+  Edge(unsigned int _start, unsigned int _end);
   ~Edge();
 
-  Vertex* getVertex() const { return end; }
+  unsigned int getVertex() const { return end; }
 
   void setNext(Edge* e);
   Edge* getNext() const { return next; }
@@ -31,8 +31,6 @@ public:
 
   void setTriangle(HalfEdgeTriangle* _tri);
   HalfEdgeTriangle* getTriangle() const { return tri; }
-
-  float getLength() const;
 };
 
 #endif

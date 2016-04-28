@@ -32,21 +32,15 @@ public:
   }
 
   void LoadDefault();
-  void addTriangle(Vertex* a, Vertex* b, Vertex* c);
+  void addTriangle(unsigned int a, unsigned int b, unsigned int c);
 
   void Reset() {
-    vertices.clear(); edges.clear(); triangles.clear();
+    vtx_pos_arr.clear(); tri_vert_indices.clear();
+    edges.clear(); triangles.clear();
     bbox = BoundingBox();
   }
 
   unsigned int numTriangles() { return triangles.size(); }
-  const std::vector<Triangle*> getTriangles() const {
-    std::vector<Triangle*> output = std::vector<Triangle*>(triangles.size());
-    for (unsigned int i = 0; i < triangles.size(); i++) {
-      output[i] = (Triangle*)triangles[i];
-    }
-    return output;
-  }
 };
 
 #endif

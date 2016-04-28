@@ -5,15 +5,23 @@
 #include <iostream>
 
 #include "Edge.hpp"
-#include "../../geometry/Triangle.hpp"
 
-class HalfEdgeTriangle : public Triangle {
+class HalfEdgeTriangle {
 private:
   Edge* e;
 
+  Edge* edgeAt(unsigned int i) const {
+    Edge* answer = e;
+    while(i > 0) {
+      answer = answer->getNext();
+      i--;
+    }
+    return answer;
+  }
+
 public:
-  HalfEdgeTriangle() : Triangle() { e = NULL; }
-  HalfEdgeTriangle(Edge* _e) : Triangle() {
+  HalfEdgeTriangle() { e = NULL; }
+  HalfEdgeTriangle(Edge* _e) {
     e = _e;
     e->setTriangle(this);
   }
@@ -24,13 +32,10 @@ public:
   void setEdge(Edge* _e) { e = _e; }
   Edge* getEdge() const { return e; }
 
-  Vertex* operator[](unsigned int i) const {
+  unsigned int operator[](unsigned int i) const {
     assert(e != NULL);
     assert(i < 3);
-    if (i == 0) return e->getVertex();
-    else if (i == 1) return e->getNext()->getVertex();
-    else if (i == 2) return e->getNext()->getNext()->getVertex();
-    else return NULL;
+    return this->edgeAt(i)->getVertex();
   }
 };
 

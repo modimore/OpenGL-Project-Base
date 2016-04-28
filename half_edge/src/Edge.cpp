@@ -5,7 +5,7 @@
 #include <cassert>
 
 // Constructor and Desctructor ===========================
-Edge::Edge(Vertex* _start, Vertex* _end) {
+Edge::Edge(unsigned int _start, unsigned int _end) {
   start = _start;
   end = _end;
   tri = NULL;
@@ -39,11 +39,5 @@ void Edge::setOpposite(Edge* e) {
 void Edge::setTriangle(HalfEdgeTriangle* _tri) {
   tri = _tri;
   if (next->tri != _tri) next->setTriangle(_tri);
-}
-// =======================================================
-
-// Length of edge ========================================
-float Edge::getLength() const {
-  return glm::length(end->getPosition()-start->getPosition());
 }
 // =======================================================

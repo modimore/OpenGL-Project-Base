@@ -2,24 +2,23 @@
 #define _TRI_MESH_HPP_
 
 #include "Model.hpp"
-#include "../geometry/Triangle.hpp"
 
 class TriangleMesh : public Model {
 protected:
-  std::vector<Triangle*> triangles;
+  std::vector<unsigned int> tri_vert_indices;
 
 public:
-  TriangleMesh() { triangles = std::vector<Triangle*>(0); }
-  ~TriangleMesh() {
-    for (unsigned int i = 0; i < triangles.size(); i++) { delete triangles[i]; }
-  }
-  virtual void addTriangle(Vertex* a, Vertex* b, Vertex* c) {
-    triangles.push_back(new Triangle(a,b,c));
+  TriangleMesh() { tri_vert_indices = std::vector<unsigned int>(0); }
+  ~TriangleMesh() { }
+  virtual void addTriangle(unsigned int a, unsigned int b, unsigned int c) {
+    tri_vert_indices.push_back(a);
+    tri_vert_indices.push_back(b);
+    tri_vert_indices.push_back(c);
   }
 
-  virtual unsigned int numTriangles() { return triangles.size(); }
-  virtual const std::vector<Triangle*> getTriangles() const {
-    return triangles;
+  virtual unsigned int numTriangles() { return tri_vert_indices.size()/3; }
+  virtual const std::vector<unsigned int>& getTriVertIndices() const {
+    return tri_vert_indices;
   }
 };
 

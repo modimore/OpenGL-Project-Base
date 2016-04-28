@@ -7,8 +7,8 @@ in vec4 ex_color;
 out vec4 out_color;
 
 void main() {
-  
+
   // just use the data from the vertex shader
-  out_color = ex_color;
-  
+  out_color = vec4(0.5,0.5,0.5,1);
+
 }

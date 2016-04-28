@@ -13,22 +13,21 @@
 // Constructor and Destructor ==================================================
 void TriMeshOBJ::LoadDefault() {
   // fill vertex array
-  vertices = std::vector<Vertex*>(4);
-  vertices[0] = new Vertex(glm::vec4(-1.0,-1.0,-1.0, 1.0),glm::vec4( 0.0, 0.0, 0.0, 1.0));
-  vertices[1] = new Vertex(glm::vec4( 3.0, 0.0, 0.0, 1.0),glm::vec4( 1.0, 0.0, 0.0, 1.0));
-  vertices[2] = new Vertex(glm::vec4( 0.0, 3.0, 0.0, 1.0),glm::vec4( 0.0, 1.0, 0.0, 1.0));
-  vertices[3] = new Vertex(glm::vec4( 0.0, 0.0, 3.0, 1.0),glm::vec4( 0.0, 0.0, 1.0, 1.0));
+  vtx_pos_arr = std::vector<glm::vec4>(4);
+  vtx_pos_arr[0] = glm::vec4(-1.0,-1.0,-1.0, 1.0);
+  vtx_pos_arr[1] = glm::vec4( 3.0, 0.0, 0.0, 1.0);
+  vtx_pos_arr[2] = glm::vec4( 0.0, 3.0, 0.0, 1.0);
+  vtx_pos_arr[3] = glm::vec4( 0.0, 0.0, 3.0, 1.0);
 
   // extend bounding box
-  for (unsigned int i = 0; i < vertices.size(); i++) {
-    vertices[i]->setID(i);
-    bbox.Extend(glm::vec3(vertices[i]->getPosition()));
+  for (unsigned int i = 0; i < vtx_pos_arr.size(); i++) {
+    bbox.Extend(glm::vec3(vtx_pos_arr[i]));
   }
 
   // create triangles
   unsigned int f_i[12] = {2,1,0,3,2,0,0,1,3,1,2,3};
   for (unsigned int i = 0; i < 12; i += 3) {
-    addTriangle(vertices[f_i[i]],vertices[f_i[i+1]],vertices[f_i[i+2]]);
+    addTriangle(f_i[i],f_i[i+1],f_i[i+2]);
   }
 }
 // =============================================================================
@@ -52,7 +51,7 @@ void TriMeshOBJ::LoadOBJ(std::string input_fname) {
   char line[MAX_LINE_LENGTH];
   std::string token;
   double x,y,z,w;
-  int a,b,c;
+  unsigned int a,b,c;
 
   while (istr.getline(line,MAX_LINE_LENGTH)) {
     std::stringstream ss;
@@ -73,7 +72,7 @@ void TriMeshOBJ::LoadOBJ(std::string input_fname) {
       a = b = c = -1;
       ss >> a >> b;
       while (ss >> c) {
-        addTriangle(vertices[a-1],vertices[b-1],vertices[c-1]);
+        addTriangle(a-1,b-1,c-1);
         b = c;
       }
     }

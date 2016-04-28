@@ -9,27 +9,20 @@
 
 #include "../base/BoundingBox.hpp"
 
-#include "../geometry/Vertex.hpp"
-
 class Model {
 protected:
-  std::vector<Vertex*> vertices;
+  std::vector<glm::vec4> vtx_pos_arr;
 
 public:
   BoundingBox bbox;
 
   // Constructors and Destructors
-  Model() { bbox = BoundingBox(); vertices = std::vector<Vertex*>(0); }
-  ~Model() {
-    for (unsigned int i = 0; i < vertices.size(); i++) { delete vertices[i]; }
-  }
+  Model() { bbox = BoundingBox(); vtx_pos_arr = std::vector<glm::vec4>(0); }
+  ~Model() { }
 
   // Modifiers
-  virtual void addVertex(glm::vec4 pos,
-                         glm::vec4 color=glm::vec4(0.5,0.5,0.5,1.0)) {
-    int index = vertices.size();
-    vertices.push_back(new Vertex(pos,color));
-    vertices[index]->setID(index);
+  virtual void addVertex(glm::vec4 pos) {
+    vtx_pos_arr.push_back(pos);
     bbox.Extend(glm::vec3(pos));
   }
 
@@ -37,9 +30,9 @@ public:
 
   // Accessors
   // -- Vertices
-  virtual unsigned int numVertices() { return vertices.size(); }
-  virtual const std::vector<Vertex*>& getVertices() const {
-    return vertices;
+  virtual unsigned int numVertices() { return vtx_pos_arr.size(); }
+  virtual const std::vector<glm::vec4>& getVertexPositions() const {
+    return vtx_pos_arr;
   }
 };
 
