@@ -64,7 +64,15 @@ void TriMeshOBJ::LoadOBJ(std::string input_fname) {
     if (token == std::string("v")) {
       w = 1.0; // default to 1.0 if w is not provided (which is most of the time)
       ss >> x >> y >> z >> w;
-      addVertex(glm::vec4(x,y,z,w));
+      addVertexPosition(glm::vec4(x,y,z,w));
+    }
+    else if (token == std::string("vn")) {
+      ss >> x >> y >> z;
+      addVertexNormal(glm::vec3(x,y,z));
+    }
+    else if (token == std::string("vt")) {
+      ss >> x >> y;
+      addVertexTexCoord(glm::vec2(x,y));
     }
     else if (token == std::string("f")) {
       // assumes faces are defined using a triangle fan-out
@@ -76,8 +84,6 @@ void TriMeshOBJ::LoadOBJ(std::string input_fname) {
         b = c;
       }
     }
-    else if (token == std::string("vt")) {}
-    else if (token == std::string("vn")) {}
     else if (token[0] == '#') {}
     else {
       printf("LINE: '%s'", line);

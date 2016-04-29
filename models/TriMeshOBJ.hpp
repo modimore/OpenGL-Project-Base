@@ -4,6 +4,10 @@
 #include "TriangleMesh.hpp"
 
 class TriMeshOBJ : public TriangleMesh {
+private:
+  std::vector<unsigned int> tri_vnorm_indices;
+  std::vector<unsigned int> tri_vtex_indices;
+
 public:
   TriMeshOBJ() { LoadDefault(); }
   TriMeshOBJ(std::string input_fname) { LoadOBJ(input_fname); }
