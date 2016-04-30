@@ -14,10 +14,12 @@ void IndexedScene::Initialize() {
 void IndexedScene::Buffer() {
   // get vertex attributes
   const std::vector<glm::vec4> vtx_positions = model->getVertexPositions();
-  // get attribute indices by triangle
-  const std::vector<unsigned int> tri_vert_indices = model->getTriVertIndices();
 
   glBufferData(GL_ARRAY_BUFFER, num_vertices*sizeof(glm::vec4), &vtx_positions[0], GL_STATIC_DRAW);
+
+
+  // get vertex indices for all triangles
+  const std::vector<unsigned int> tri_vert_indices = model->getTriVertIndices();
 
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3*num_triangles*sizeof(unsigned int), &tri_vert_indices[0], GL_STATIC_DRAW);
 

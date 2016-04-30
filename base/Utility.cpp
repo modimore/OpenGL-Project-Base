@@ -42,18 +42,14 @@ void CompileShader(const GLuint shader_id, const std::string& shader_code) {
 }
 
 // Function to create shader program from a vertex shader file and a fragment shader file
-GLuint LoadShaders(const std::string& vs_path, const std::string& fs_path) {
+GLuint LoadShaders(const std::string& vs_code, const std::string& fs_code) {
   // Create shaders
   GLuint vs_id = glCreateShader(GL_VERTEX_SHADER);
   GLuint fs_id = glCreateShader(GL_FRAGMENT_SHADER);
 
-  // Read in the vertex shader from the file
-  std::string vs_code = ReadShaderCode(vs_path);
-  std::string fs_code = ReadShaderCode(fs_path);
-
-  std::cout << "Compiling shader: " << vs_path << std::endl;
+  std::cout << "Compiling vertex shader..."   << std::endl;
   CompileShader(vs_id, vs_code);
-  std::cout << "Compiling shader: " << fs_path << std::endl;
+  std::cout << "Compiling fragment shader..." << std::endl;
   CompileShader(fs_id, fs_code);
 
   // Link the shaders into one program

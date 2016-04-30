@@ -5,6 +5,7 @@ project (tmesh)
 add_executable(tmesh
   main.cpp
   ../base/GLContext.cpp
+  ../base/ShaderWriter.cpp
   ../base/Camera.cpp
   ../base/InputManager.cpp
   ../base/Utility.cpp

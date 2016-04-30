@@ -6,9 +6,7 @@
 #include <GL/glew.h>
 
 #include "../base/BoundingBox.hpp"
-#include "../geometry/ShaderInput.hpp"
-
-class Model;
+#include "../base/ShaderWriter.hpp"
 
 class Scene {
 public:
@@ -17,6 +15,10 @@ public:
 
   // Create scene and manage models
   Scene() { bbox = BoundingBox(); }
+
+  virtual struct ShaderWriterControl getVertexAttribs() {
+    return ShaderWriterControl(true,false,false,false);
+  }
 
   virtual void Update() {}
 

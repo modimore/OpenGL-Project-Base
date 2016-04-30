@@ -1,14 +1,15 @@
-#include "ArgParser.hpp"
+#include "ConfigParser.hpp"
 #include "InputManager.hpp"
 #include "Camera.hpp"
 #include "../scenes/Scene.hpp"
 #include "Utility.hpp"
+#include "ShaderWriter.hpp"
 
 #include "GLContext.hpp"
 
 #include <cmath>
 
-ArgParser* GLContext::args = NULL;
+ConfigParser* GLContext::conf = NULL;
 Camera* GLContext::camera = NULL;
 Scene* GLContext::scene = NULL;
 
@@ -16,8 +17,8 @@ GLFWwindow* GLContext::window = NULL;
 
 GLuint GLContext::ProgramID;
 
-void GLContext::Initialize(ArgParser* _args, Scene* _scene) {
-  args = _args;
+void GLContext::Initialize(ConfigParser* _conf, Scene* _scene) {
+  conf = _conf;
   scene = _scene;
 
   // GLFW setup
@@ -41,7 +42,7 @@ void GLContext::Initialize(ArgParser* _args, Scene* _scene) {
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
 
-  window = glfwCreateWindow(args->width,args->height, "OpenGL Viewer", NULL, NULL);
+  window = glfwCreateWindow(conf->width,conf->height, "OpenGL Viewer", NULL, NULL);
   if (!window) {
     std::cerr << "ERROR: " << "Failed to open GLFW window" << std::endl;
     glfwTerminate();
@@ -75,9 +76,19 @@ void GLContext::Initialize(ArgParser* _args, Scene* _scene) {
   glfwSetMouseButtonCallback(window, InputManager::OnMouseClick);
   glfwSetKeyCallback(window, InputManager::OnKeyEvent);
 
-  // ProgramID = LoadShaders(args->shader_path + '/' + args->vertex_shader,
-  //                         args->shader_path + '/' + args->fragment_shader);
-  ProgramID = LoadShaders(args->get_vs_path(), args->get_fs_path());
+  // ProgramID = LoadShaders(conf->shader_path + '/' + conf->vertex_shader,
+  //                         conf->shader_path + '/' + conf->fragment_shader);
+  if (conf->generate_shaders) {
+    struct ShaderWriterControl pr_out = scene->getVertexAttribs();
+    struct ShaderWriterControl vs_out(false,pr_out.color,false,false);
+    struct ShaderWriterControl fs_out(false,true,false,false);
+    ProgramID = LoadShaders( ShaderWriter::GetVertexShader(pr_out,vs_out),
+                             ShaderWriter::GetFragmentShader(vs_out,fs_out) );
+  }
+  else {
+    ProgramID = LoadShaders( ReadShaderCode(conf->get_vs_path()),
+                             ReadShaderCode(conf->get_fs_path()) );
+  }
 
   // Initialize the scene in preparation for camera setup
   scene->Initialize();
@@ -89,7 +100,7 @@ void GLContext::Initialize(ArgParser* _args, Scene* _scene) {
   glm::vec3 point_of_interest = scene->bbox.getCenter();
   glm::vec3 camera_position = point_of_interest + glm::vec3(offset);
   // program can use either an orthographic camera or a perspective camera
-  if (args->camera == "orthographic") {
+  if (conf->camera == "orthographic") {
     float size = scene->bbox.majorDiagLength();
     camera = new OrthographicCamera(camera_position,point_of_interest,up,size);
   }
@@ -122,7 +133,7 @@ void GLContext::Run() {
   glDepthFunc(GL_LESS);
   glEnable(GL_CULL_FACE);
 
-  GLuint matrix_id = glGetUniformLocation(ProgramID, "MVP");
+  GLuint gl_MVP = glGetUniformLocation(ProgramID, "MVP");
 
   while (!glfwWindowShouldClose(window)) {
 
@@ -134,7 +145,7 @@ void GLContext::Run() {
     glm::mat4 model_matrix = glm::mat4(1.0);
     glm::mat4 MVP = projection_matrix * view_matrix * model_matrix;
 
-    glUniformMatrix4fv(matrix_id, 1, GL_FALSE, &MVP[0][0]);
+    glUniformMatrix4fv(gl_MVP, 1, GL_FALSE, &MVP[0][0]);
 
     scene->Update();
     scene->Render();

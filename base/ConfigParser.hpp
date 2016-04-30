@@ -29,12 +29,13 @@ inline void separate_path_and_file(const std::string &full_path, std::string& pa
   }
 }
 
-class ArgParser {
+class ConfigParser {
 public:
   // default input
   std::string input_path = "../inputs";
   std::string input_file = "cube.obj";
   // default shaders and shader location
+  bool generate_shaders = false;
   std::string shader_path = "../shaders";
   std::string vertex_shader = "default.vs";
   std::string fragment_shader = "default.fs";
@@ -45,21 +46,24 @@ public:
 
   // Constructors
   // Default, trivial
-  ArgParser() {}
+  ConfigParser() {}
   // Parse accepted paramters from command line at runtime
-  ArgParser(int argc, char* argv[]) {
+  ConfigParser(int argc, char* argv[]) {
     for (int i = 1; i < argc; i++) ParseCommand(argc,argv,i);
   }
 
   // Destructor, trivial
-  ~ArgParser() {}
+  ~ConfigParser() {}
 
   virtual void ParseCommand(int argc, char* argv[], int& i) {
     if ( !strcmp(argv[i],"-input") || !strcmp(argv[i],"-i") ) {
       ++i; assert(i < argc);
       separate_path_and_file(std::string(argv[i]), input_path, input_file);
     }
-    else if ( !strcmp(argv[i], "-shaders") ) {
+    else if (!strcmp(argv[i], "-generate_shaders") || !strcmp(argv[i], "-gs")) {
+      generate_shaders = true;
+    }
+    else if ( !strcmp(argv[i], "-shader_files") ) {
       ++i; assert(i < argc);
       separate_path_and_file(std::string(argv[i]), shader_path, vertex_shader);
       ++i; assert(i < argc);

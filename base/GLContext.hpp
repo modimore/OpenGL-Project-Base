@@ -13,13 +13,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-class ArgParser;
+class ConfigParser;
 class Camera;
 class Scene;
 
 class GLContext {
 public:
-  static ArgParser* args;
+  static ConfigParser* conf;
   static Camera* camera;
   static Scene* scene;
   static GLFWwindow* window;
@@ -27,7 +27,7 @@ public:
   // GL Context Variables
   static GLuint ProgramID;
 
-  static void Initialize(ArgParser* _args, Scene* _scene);
+  static void Initialize(ConfigParser* _conf, Scene* _scene);
   static void Cleanup();
   static void Run();
   static void ErrorCallback(int error, const char* message);

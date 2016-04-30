@@ -6,12 +6,14 @@
 
 struct ShaderWriterControl {
   bool position; bool normal; bool texture; bool color;
-  ShaderWriterControl(pos=true,color=true,norm=false,tex=false)
-  { position = pos; color = color; normal = norm; texture = tex; }
-}
+  ShaderWriterControl(bool pos=true, bool col=true, bool norm=false, bool tex=false)
+  { position = pos; color = col; normal = norm; texture = tex; }
+};
 
 class ShaderWriter {
 public:
-  static std::string WriteVertexShader(struct ShaderWriterControl in_ctrl, struct ShaderWriterControl out_ctrl);
-  static std::string WriteFragmentShader(struct ShaderWriterControl in_ctrl, struct ShaderWriterControl out_ctrl);
+  static std::string GetVertexShader(struct ShaderWriterControl in_ctrl, struct ShaderWriterControl out_ctrl);
+  static std::string GetFragmentShader(struct ShaderWriterControl in_ctrl, struct ShaderWriterControl out_ctrl);
 };
+
+#endif
