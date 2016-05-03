@@ -1,5 +1,5 @@
-#ifndef __GLSL_SHADER_WRITER_HPP__
-#define __GLSL_SHADER_WRITER_HPP__
+#ifndef _GLSL_SHADER_WRITER_HPP_
+#define _GLSL_SHADER_WRITER_HPP_
 
 #include <string>
 #include <sstream>
@@ -13,7 +13,7 @@ struct ShaderWriterControl {
 class ShaderWriter {
 public:
   static std::string GetVertexShader(struct ShaderWriterControl in_ctrl, struct ShaderWriterControl out_ctrl);
-  static std::string GetFragmentShader(struct ShaderWriterControl in_ctrl, struct ShaderWriterControl out_ctrl);
+  static std::string GetFragmentShader(struct ShaderWriterControl in_ctrl);
 };
 
 #endif

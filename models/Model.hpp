@@ -39,17 +39,26 @@ public:
   // Accessors
   // -- Vertices
   virtual unsigned int numVertices() { return vtx_pos_arr.size(); }
-  virtual const bool hasVertexPositions() { return vtx_pos_arr.size() > 0; }
+  virtual const bool usesVertexPositions() { return vtx_pos_arr.size() > 0; }
   virtual const std::vector<glm::vec4>& getVertexPositions() const {
     return vtx_pos_arr;
   }
-  virtual const bool hasVertexNormals() { return vtx_norm_arr.size() > 0; }
+  virtual glm::vec4 getVertexPositionAt(unsigned int i) const {
+    return vtx_pos_arr[i];
+  }
+  virtual const bool usesVertexNormals() { return vtx_norm_arr.size() > 0; }
   virtual const std::vector<glm::vec3>& getVertexNormals() const {
     return vtx_norm_arr;
   }
-  virtual const bool hasVertexTexCoords() { return vtx_tex_arr.size() > 0; }
+  virtual glm::vec3 getVertexNormalAt(unsigned int i) const {
+    return vtx_norm_arr[i];
+  }
+  virtual const bool usesVertexTexCoords() { return vtx_tex_arr.size() > 0; }
   virtual const std::vector<glm::vec2>& getVertexTexCoords() const {
     return vtx_tex_arr;
+  }
+  virtual glm::vec2 getVertexTexCoordAt(unsigned int i) {
+    return vtx_tex_arr[i];
   }
 };
 

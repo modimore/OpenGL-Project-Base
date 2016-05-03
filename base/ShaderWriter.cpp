@@ -9,13 +9,13 @@ std::string ShaderWriter::GetVertexShader(struct ShaderWriterControl in_ctrl, st
   // specify shader version
   ss << "#version 330 core" << std::endl << std::endl;
 
-  // define uniform shader inputs
+  // declare uniform shader inputs
 
   ss << "uniform mat4 MVP;" << std::endl;
 
   ss << std::endl;
 
-  // define per-vertex shader inputs
+  // declare per-vertex shader inputs
 
   unsigned int layout_loc = 0;
 
@@ -34,12 +34,12 @@ std::string ShaderWriter::GetVertexShader(struct ShaderWriterControl in_ctrl, st
 
   ss << std::endl;
 
-  // define vertex shader outputs
+  // declare vertex shader outputs
 
-  if (out_ctrl.position && false)  { ss << "out vec4 vs_position;"   << std::endl; }
+  //if (out_ctrl.position)  { ss << "out vec4 vs_position;"   << std::endl; }
   if (out_ctrl.color)     { ss << "out vec4 vs_color;"      << std::endl; }
-  if (out_ctrl.normal && false)    { ss << "out vec3 vs_normal;"     << std::endl; }
-  if (out_ctrl.texture && false)   { ss << "out vec2 vs_tex_coord;"  << std::endl; }
+  //if (out_ctrl.normal)    { ss << "out vec3 vs_normal;"     << std::endl; }
+  //if (out_ctrl.texture)   { ss << "out vec2 vs_tex_coord;"  << std::endl; }
 
   ss << std::endl;
 
@@ -63,7 +63,7 @@ std::string ShaderWriter::GetVertexShader(struct ShaderWriterControl in_ctrl, st
 }
 
 // INCOMPLETE, BUT NOT USED ANYWHERE YET
-std::string ShaderWriter::GetFragmentShader(struct ShaderWriterControl in_ctrl, struct ShaderWriterControl out_ctrl) {
+std::string ShaderWriter::GetFragmentShader(struct ShaderWriterControl in_ctrl) {
   std::stringstream ss;
 
   // specify shader version
@@ -71,15 +71,12 @@ std::string ShaderWriter::GetFragmentShader(struct ShaderWriterControl in_ctrl, 
 
   // REVISIT THESE THINGS
 
-  if (in_ctrl.position)   { ss << "in vec4 vs_position;"   << std::endl; }
+  //if (in_ctrl.position)   { ss << "in vec4 vs_position;"   << std::endl; }
   if (in_ctrl.color)      { ss << "in vec4 vs_color;"      << std::endl; }
-  if (in_ctrl.normal)     { ss << "in vec3 vs_normal;"     << std::endl; }
-  if (in_ctrl.texture)    { ss << "in vec2 vs_tex_coord;"  << std::endl; }
+  //if (in_ctrl.normal)     { ss << "in vec3 vs_normal;"     << std::endl; }
+  //if (in_ctrl.texture)    { ss << "in vec2 vs_tex_coord;"  << std::endl; }
 
-  if (out_ctrl.position && false)  { ss << "out vec4 fs_position;"   << std::endl; }
-  if (out_ctrl.color || true)     { ss << "out vec4 fs_color;"      << std::endl; }
-  if (out_ctrl.normal && false)    { ss << "out vec3 fs_normal;"     << std::endl; }
-  if (out_ctrl.texture)   { ss << "out vec2 fs_tex_coord;"  << std::endl; }
+  ss << "out vec4 fs_color;" << std::endl;
 
   // write fragment shader main function
 

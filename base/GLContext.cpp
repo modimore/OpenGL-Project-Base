@@ -81,9 +81,9 @@ void GLContext::Initialize(ConfigParser* _conf, Scene* _scene) {
   if (conf->generate_shaders) {
     struct ShaderWriterControl pr_out = scene->getVertexAttribs();
     struct ShaderWriterControl vs_out(false,pr_out.color,false,false);
-    struct ShaderWriterControl fs_out(false,true,false,false);
+    //struct ShaderWriterControl fs_out(false,true,false,false);
     ProgramID = LoadShaders( ShaderWriter::GetVertexShader(pr_out,vs_out),
-                             ShaderWriter::GetFragmentShader(vs_out,fs_out) );
+                             ShaderWriter::GetFragmentShader(vs_out) );
   }
   else {
     ProgramID = LoadShaders( ReadShaderCode(conf->get_vs_path()),

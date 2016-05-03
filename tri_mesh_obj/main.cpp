@@ -15,6 +15,7 @@
 int main(int argc, char* argv[]) {
   ConfigParser conf = ConfigParser(argc, argv);
   TriMeshOBJ tmesh = TriMeshOBJ(conf.get_input_path());
+  //TriMeshOBJ tmesh = TriMeshOBJ();
   IndexedScene scene = IndexedScene();
   scene.AddModel(&tmesh);
   GLContext::Initialize(&conf,&scene);

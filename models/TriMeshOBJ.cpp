@@ -51,7 +51,7 @@ void TriMeshOBJ::LoadOBJ(std::string input_fname) {
   char line[MAX_LINE_LENGTH];
   std::string token;
   double x,y,z,w;
-  unsigned int a,b,c;
+  std::string a, b, c;
 
   while (istr.getline(line,MAX_LINE_LENGTH)) {
     std::stringstream ss;
@@ -77,10 +77,12 @@ void TriMeshOBJ::LoadOBJ(std::string input_fname) {
     else if (token == std::string("f")) {
       // assumes faces are defined using a triangle fan-out
       // does not handle vertex textures or normals provided here
-      a = b = c = -1;
+      a = b = c = std::string("");
       ss >> a >> b;
       while (ss >> c) {
-        addTriangle(a-1,b-1,c-1);
+        std::string tri_spec;
+        tri_spec = a + " " + b + " " + c;
+        addTriangle(&tri_spec[0]);
         b = c;
       }
     }

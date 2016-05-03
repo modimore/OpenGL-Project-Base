@@ -25,7 +25,7 @@ public:
 private:
   unsigned int vao_id;
   unsigned int vertices_vbo_id;
-  unsigned int indices_vbo_id;
+  //unsigned int indices_vbo_id;
 };
 
 #endif
