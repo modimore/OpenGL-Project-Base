@@ -35,9 +35,6 @@ void TriMeshOBJ::LoadDefault() {
 // Load from a .obj file =======================================================
 // Does not handles full standard, only a limited subset of the specification
 // Does skip comments, so feel free to write .obj # comments in your files
-// Specifically:
-// -- does not bother with vt or vn specification lines
-// -- relatedly only deals with faces without those things (and will crash if they are provided)
 #define MAX_LINE_LENGTH 200
 void TriMeshOBJ::LoadOBJ(std::string input_fname) {
   std::ifstream istr(&(input_fname[0]));

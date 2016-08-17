@@ -3,20 +3,25 @@
 
 #include <vector>
 
-class Triangle {
+class BaseTriangle {
+public:
+  BaseTriangle() { }
+};
+
+class Triangle : public BaseTriangle {
 public:
   std::vector<unsigned int> pos_indices;
   std::vector<unsigned int> norm_indices;
   std::vector<unsigned int> tex_coord_indices;
-  
-  Triangle() {}
-  Triangle(unsigned int a, unsigned int b, unsigned int c) {
+
+  Triangle() : BaseTriangle() {}
+  Triangle(unsigned int a, unsigned int b, unsigned int c) : BaseTriangle() {
     pos_indices.resize(3);
     pos_indices[0] = a;
     pos_indices[1] = b;
     pos_indices[2] = c;
   }
-  virtual ~Triangle() { }
+  ~Triangle() { }
 
   void addPosIndices(unsigned int a, unsigned int b, unsigned int c) {
     pos_indices.resize(3);

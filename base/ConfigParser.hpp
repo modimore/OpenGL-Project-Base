@@ -17,7 +17,7 @@ inline void separate_path_and_file(const std::string &full_path, std::string& pa
   while (next != std::string::npos) {
     // update last every time a new '/' is found
     last = next;
-    next = full_path.find('/',next);
+    next = full_path.find('/',last+1);
   }
 
   // if there is no '/' then change the filename to the full path and leave the default path
@@ -26,6 +26,8 @@ inline void separate_path_and_file(const std::string &full_path, std::string& pa
   else {
     path = full_path.substr(0,last);
     filename = full_path.substr(last,full_path.size());
+    std::cout << path << std::endl;
+    std::cout << filename << std::endl;
   }
 }
 

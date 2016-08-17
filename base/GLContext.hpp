@@ -17,8 +17,12 @@ class ConfigParser;
 class Camera;
 class Scene;
 
+/* OpenGL Context Manager
+ * Manages the interface between C++ components and the OpenGL program.
+ * */
 class GLContext {
 public:
+  // References to C++ objects
   static ConfigParser* conf;
   static Camera* camera;
   static Scene* scene;
@@ -26,7 +30,7 @@ public:
 
   // GL Context Variables
   static GLuint ProgramID;
-
+  
   static void Initialize(ConfigParser* _conf, Scene* _scene);
   static void Cleanup();
   static void Run();

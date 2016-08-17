@@ -13,12 +13,10 @@
 class HalfEdgeMesh : public TriMeshOBJ {
 public:
   std::vector<Edge*> edges;
-  std::vector<HalfEdgeTriangle*> triangles;
 
   // Constructor
-  HalfEdgeMesh() : TriMeshOBJ() { LoadDefault(); }
-  HalfEdgeMesh(std::string input_fname) :
-  TriMeshOBJ() {
+  HalfEdgeMesh() : TriMeshOBJ() { Reset(); LoadDefault(); }
+  HalfEdgeMesh(std::string input_fname) : TriMeshOBJ() {
     Reset();
     LoadOBJ(input_fname);
   }
@@ -33,14 +31,26 @@ public:
 
   void LoadDefault();
   void addTriangle(unsigned int a, unsigned int b, unsigned int c);
+  void addTriangle(char* tri_spec);
 
   void Reset() {
-    vtx_pos_arr.clear(); tri_vert_indices.clear();
+    vtx_pos_arr.clear();
     edges.clear(); triangles.clear();
     bbox = BoundingBox();
   }
 
-  unsigned int numTriangles() { return triangles.size(); }
+  std::vector<float> getTriVertexData(unsigned int tri_index, unsigned int v_index) {
+    HalfEdgeTriangle* tri = (HalfEdgeTriangle*)triangles[tri_index];
+    std::vector<float> result;
+
+    glm::vec4 pos = vtx_pos_arr[ (*tri)[v_index] ];
+    result.push_back(pos.x);
+    result.push_back(pos.y);
+    result.push_back(pos.z);
+    result.push_back(pos.w);
+
+    return result;
+  }
 };
 
 #endif

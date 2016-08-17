@@ -37,7 +37,7 @@ void HalfEdgeMesh::LoadDefault() {
 
 // Add a Triangle ==============================================================
 void HalfEdgeMesh::addTriangle(unsigned int a, unsigned int b, unsigned int c) {
-  TriangleMesh::addTriangle(a,b,c);
+  //TriangleMesh::addTriangle(a,b,c);
   unsigned int index = edges.size();
 
   edges.push_back(new Edge(a,b));
@@ -49,5 +49,50 @@ void HalfEdgeMesh::addTriangle(unsigned int a, unsigned int b, unsigned int c) {
   edges[index+2]->setNext(edges[index  ]);
 
   triangles.push_back(new HalfEdgeTriangle(edges[index]));
+}
+
+void HalfEdgeMesh::addTriangle(char* tri_spec) {
+  unsigned int a_pos,  b_pos,  c_pos;
+  unsigned int a_norm, b_norm, c_norm;
+  unsigned int a_tex,  b_tex,  c_tex;
+
+  //Triangle new_tri = Triangle();
+
+  if (sscanf(tri_spec,
+             "%u/%u/%u %u/%u/%u %u/%u/%u",
+             &a_pos, &a_norm, &a_tex,
+             &b_pos, &b_norm, &b_tex,
+             &c_pos, &c_norm, &c_tex) == 9) {
+    this->addTriangle(a_pos-1,b_pos-1,c_pos-1);
+    //new_tri.addPosIndices(a_pos-1,b_pos-1,c_pos-1);
+    //new_tri.addNormIndices(a_norm-1,b_norm-1,c_norm-1);
+    //new_tri.addTexCoordIndices(a_tex-1,b_tex-1,c_tex-1);
+  } else if (sscanf(tri_spec,
+                    "%u//%u %u//%u %u//%u",
+                    &a_pos, &a_tex,
+                    &b_pos, &b_tex,
+                    &c_pos, &c_tex) == 6) {
+    this->addTriangle(a_pos-1,b_pos-1,c_pos-1);
+    //new_tri.addPosIndices(a_pos-1,b_pos-1,c_pos-1);
+    //new_tri.addTexCoordIndices(a_tex-1,b_tex-1,c_tex-1);
+  } else if (sscanf(tri_spec,
+                    "%u/%u %u/%u %u/%u",
+                    &a_pos, &a_norm,
+                    &b_pos, &b_norm,
+                    &c_pos, &c_norm) == 6) {
+    this->addTriangle(a_pos-1,b_pos-1,c_pos-1);
+    //new_tri.addPosIndices(a_pos-1,b_pos-1,c_pos-1);
+    //new_tri.addNormIndices(a_norm-1,b_norm-1,c_norm-1);
+  } else if (sscanf(tri_spec,
+                    "%u %u %u",
+                    &a_pos, &b_pos, &c_pos) == 3) {
+    this->addTriangle(a_pos-1,b_pos-1,c_pos-1);
+    //new_tri.addPosIndices(a_pos-1,b_pos-1,c_pos-1);
+  } else {
+    fprintf(stderr, "Invalid triangle: %s\n", tri_spec);
+    return;
+  }
+
+  //triangles.push_back(new_tri);
 }
 // =============================================================================

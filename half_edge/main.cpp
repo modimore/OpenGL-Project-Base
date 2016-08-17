@@ -8,15 +8,16 @@
 #include "../base/InputManager.hpp"
 #include "../scenes/IndexedScene.hpp"
 
-#include "../base/ArgParser.hpp"
+#include "../base/ConfigParser.hpp"
 #include "src/HalfEdgeMesh.hpp"
 
 int main(int argc, char* argv[]) {
-  ArgParser args = ArgParser(argc, argv);
-  HalfEdgeMesh hedge = HalfEdgeMesh(args.get_input_path());
+  ConfigParser conf = ConfigParser(argc, argv);
+  HalfEdgeMesh hedge = HalfEdgeMesh(conf.get_input_path());
+  //HalfEdgeMesh hedge = HalfEdgeMesh();
   IndexedScene scene = IndexedScene();
   scene.AddModel(&hedge);
-  GLContext::Initialize(&args,&scene);
+  GLContext::Initialize(&conf,&scene);
   GLContext::Run();
   GLContext::Cleanup();
   return 0;

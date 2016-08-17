@@ -11,7 +11,6 @@
 #include "../scenes/IndexedScene.hpp"
 #include "../models/TriMeshOBJ.hpp"
 
-
 int main(int argc, char* argv[]) {
   ConfigParser conf = ConfigParser(argc, argv);
   TriMeshOBJ tmesh = TriMeshOBJ(conf.get_input_path());

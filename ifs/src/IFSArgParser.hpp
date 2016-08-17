@@ -1,9 +1,9 @@
 #ifndef _IFS_ARGPARSER_HPP_
 #define _IFS_ARGPARSER_HPP_
 
-#include "../../base/ArgParser.hpp"
+#include "../../base/ConfigParser.hpp"
 
-class IFSArgParser : public ArgParser {
+class IFSArgParser : public ConfigParser {
 public:
   // Default input file and path
   std::string input_path = "../inputs";
@@ -14,9 +14,9 @@ public:
   bool deterministic = false;
 
   // Default Constructor
-  IFSArgParser() : ArgParser() { }
+  IFSArgParser() : ConfigParser() { }
   // Command Line Parameters Constructor
-  IFSArgParser(int argc, char* argv[]) : ArgParser()
+  IFSArgParser(int argc, char* argv[]) : ConfigParser()
   {
     for (int i = 1; i < argc; i++) {
       if ( !strcmp(argv[i], "-iterations") || !strcmp(argv[i], "-iters") ) {

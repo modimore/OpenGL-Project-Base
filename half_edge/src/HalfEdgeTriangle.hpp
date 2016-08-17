@@ -1,12 +1,13 @@
-#ifndef _HALF_EDGE_TRIANGLE_HPP_
+ #ifndef _HALF_EDGE_TRIANGLE_HPP_
 #define _HALF_EDGE_TRIANGLE_HPP_
 
 #include <cassert>
 #include <iostream>
 
 #include "Edge.hpp"
+#include "../../geometry/Triangle.hpp"
 
-class HalfEdgeTriangle {
+class HalfEdgeTriangle : public BaseTriangle {
 private:
   Edge* e;
 
@@ -20,8 +21,8 @@ private:
   }
 
 public:
-  HalfEdgeTriangle() { e = NULL; }
-  HalfEdgeTriangle(Edge* _e) {
+  HalfEdgeTriangle() : BaseTriangle() { e = NULL; }
+  HalfEdgeTriangle(Edge* _e) : BaseTriangle() {
     e = _e;
     e->setTriangle(this);
   }

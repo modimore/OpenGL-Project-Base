@@ -9,6 +9,7 @@
 
 #include <cmath>
 
+// Declare all static GLContext member variables
 ConfigParser* GLContext::conf = NULL;
 Camera* GLContext::camera = NULL;
 Scene* GLContext::scene = NULL;
@@ -42,6 +43,7 @@ void GLContext::Initialize(ConfigParser* _conf, Scene* _scene) {
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
 
+  // Create OpenGL Display Window
   window = glfwCreateWindow(conf->width,conf->height, "OpenGL Viewer", NULL, NULL);
   if (!window) {
     std::cerr << "ERROR: " << "Failed to open GLFW window" << std::endl;
@@ -76,9 +78,9 @@ void GLContext::Initialize(ConfigParser* _conf, Scene* _scene) {
   glfwSetMouseButtonCallback(window, InputManager::OnMouseClick);
   glfwSetKeyCallback(window, InputManager::OnKeyEvent);
 
-  // ProgramID = LoadShaders(conf->shader_path + '/' + conf->vertex_shader,
-  //                         conf->shader_path + '/' + conf->fragment_shader);
+  // Create OpenGL program from shaders
   if (conf->generate_shaders) {
+    // Generate shaders based on the needs of the scene.
     struct ShaderWriterControl pr_out = scene->getVertexAttribs();
     struct ShaderWriterControl vs_out(false,pr_out.color,false,false);
     //struct ShaderWriterControl fs_out(false,true,false,false);
@@ -86,6 +88,7 @@ void GLContext::Initialize(ConfigParser* _conf, Scene* _scene) {
                              ShaderWriter::GetFragmentShader(vs_out) );
   }
   else {
+    // Load persistent shader files
     ProgramID = LoadShaders( ReadShaderCode(conf->get_vs_path()),
                              ReadShaderCode(conf->get_fs_path()) );
   }
@@ -147,10 +150,12 @@ void GLContext::Run() {
 
     glUniformMatrix4fv(gl_MVP, 1, GL_FALSE, &MVP[0][0]);
 
+    // Update and render the scene
     scene->Update();
     scene->Render();
-
     glfwSwapBuffers(window);
+
+    // Check for user interaction
     glfwPollEvents();
   }
 }

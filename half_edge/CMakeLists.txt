@@ -7,6 +7,7 @@ add_executable(hedge
   ../base/GLContext.cpp
   ../base/Camera.cpp
   ../base/InputManager.cpp
+  ../base/ShaderWriter.cpp
   ../base/Utility.cpp
   ../scenes/IndexedScene.cpp
   ../models/TriMeshOBJ.cpp
